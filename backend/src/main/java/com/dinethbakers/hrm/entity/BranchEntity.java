@@ -13,13 +13,14 @@ import java.util.List;
 public class BranchEntity {
     @Id
     @Column(name = "branch_id")
-    private String branchId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer branchId;
     private String name;
 
-    @Column(precision = 10, scale = 6)
+    @Column(precision = 18, scale = 15)
     private BigDecimal latitude;
 
-    @Column(precision = 10, scale = 6)
+    @Column(precision = 18, scale = 15)
     private BigDecimal longitude;
 
     private String address;

@@ -11,7 +11,7 @@ public class BranchMobileEntity {
     @Id
     private String number;
 
-    @JsonIgnore
+    //@JsonIgnore
     @ManyToOne
     @JoinColumn(name = "branch_id")
     private BranchEntity branch;
