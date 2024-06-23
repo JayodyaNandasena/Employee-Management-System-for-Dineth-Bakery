@@ -10,4 +10,8 @@ import java.util.Optional;
 public interface BranchNativeRepository {
     List<Map<String, Object>> findByName(String name);
     Optional<BranchEntity> findByLocation(BigDecimal latitude, BigDecimal longitude);
+
+    String getLastId();
+
+    Optional<BranchEntity> update(BranchEntity entity);
 }

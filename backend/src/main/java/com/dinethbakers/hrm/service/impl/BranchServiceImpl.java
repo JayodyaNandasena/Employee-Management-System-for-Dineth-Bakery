@@ -26,6 +26,7 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public Branch persist(Branch branch) {
+        branch.setBranchId(generateId());
         BranchEntity savedEntity = repository.save(mapper.convertValue(branch, BranchEntity.class));
 
         return mapper.convertValue(savedEntity, Branch.class);
@@ -51,7 +52,7 @@ public class BranchServiceImpl implements BranchService {
         resultList.forEach(branchMap -> {
             Branch branch =
                     mapper.convertValue(branchMap, Branch.class);
-            branch.setBranchId((Integer) branchMap.get("branch_id"));
+            branch.setBranchId(branchMap.get("branch_id").toString());
             branchList.add(branch);
         });
 
@@ -77,16 +78,11 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public Branch update(String id, Branch branch) {
-        Branch byId = getById(id);
+    public Branch update(Branch branch) {
+        Optional<BranchEntity> update = nativeRepository.update(
+                mapper.convertValue(branch, BranchEntity.class));
 
-        if (byId == null){
-            return null;
-        }
-
-        BranchEntity savedEntity = repository.save(mapper.convertValue(branch, BranchEntity.class));
-
-        return mapper.convertValue(savedEntity, Branch.class);
+        return mapper.convertValue(update, Branch.class);
     }
 
     @Override
@@ -99,5 +95,18 @@ public class BranchServiceImpl implements BranchService {
         }
 
         return false;
+    }
+
+    private String generateId(){
+        String lastId = nativeRepository.getLastId();
+
+        if (lastId == null){
+            return "B001";
+        }
+
+        String numberPart = lastId.replaceAll("\\D+", "");
+        int number = Integer.parseInt(numberPart);
+        number++;
+        return "B" + String.format("%03d", number);
     }
 }

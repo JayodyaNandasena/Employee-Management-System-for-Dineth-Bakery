@@ -11,6 +11,6 @@ public interface BranchService {
     List<Branch> getByName(String name);
     Branch getByLocation(BigDecimal latitude, BigDecimal longitude);
     List<Branch> getAll();
-    Branch update(String id, Branch branch);
+    Branch update(Branch branch);
     Boolean delete(String id);
 }

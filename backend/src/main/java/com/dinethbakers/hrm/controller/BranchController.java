@@ -44,11 +44,9 @@ public class BranchController {
     //ERROR
 
     @PutMapping
-    Branch update(@RequestParam(name = "currentBranchId") String id,
-                  @RequestBody Branch branch){
-        return service.update(id, branch);
+    Branch update(@RequestBody Branch branch){
+        return service.update(branch);
     }
-    //Trouble
 
     @DeleteMapping
     Map<String, Boolean> deleteById(@RequestParam(name = "branchId") String id){

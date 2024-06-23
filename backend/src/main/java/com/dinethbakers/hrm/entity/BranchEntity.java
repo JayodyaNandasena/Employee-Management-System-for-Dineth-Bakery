@@ -13,8 +13,7 @@ import java.util.List;
 public class BranchEntity {
     @Id
     @Column(name = "branch_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer branchId;
+    private String branchId;
     private String name;
 
     @Column(precision = 18, scale = 15)
