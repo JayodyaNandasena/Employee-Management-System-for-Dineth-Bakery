@@ -20,21 +20,21 @@ import java.util.Optional;
 @Service
 public class BranchServiceImpl implements BranchService {
 
-    private final BranchRepository repository;
+    private final BranchRepository branchJpaRepository;
     private final BranchNativeRepository nativeRepository;
     private final ObjectMapper mapper;
 
     @Override
     public Branch persist(Branch branch) {
         branch.setBranchId(generateId());
-        BranchEntity savedEntity = repository.save(mapper.convertValue(branch, BranchEntity.class));
+        BranchEntity savedEntity = branchJpaRepository.save(mapper.convertValue(branch, BranchEntity.class));
 
         return mapper.convertValue(savedEntity, Branch.class);
     }
 
     @Override
     public Branch getById(String id) {
-        Optional<BranchEntity> byId = repository.findById(id);
+        Optional<BranchEntity> byId = branchJpaRepository.findById(id);
 
         return mapper.convertValue(byId, Branch.class);
     }
@@ -67,7 +67,7 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public List<Branch> getAll() {
-        Iterable<BranchEntity> branchList = repository.findAll();
+        Iterable<BranchEntity> branchList = branchJpaRepository.findAll();
 
         List<Branch> branches = new ArrayList<>();
 
@@ -87,10 +87,10 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public Boolean delete(String id) {
-        Optional<BranchEntity> byId = repository.findById(id);
+        Optional<BranchEntity> byId = branchJpaRepository.findById(id);
 
         if (byId.isPresent()){
-            repository.delete(mapper.convertValue(byId, BranchEntity.class));
+            branchJpaRepository.delete(mapper.convertValue(byId, BranchEntity.class));
             return true;
         }
 
@@ -109,4 +109,7 @@ public class BranchServiceImpl implements BranchService {
         number++;
         return "B" + String.format("%03d", number);
     }
+
+
+
 }

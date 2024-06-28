@@ -1,6 +1,5 @@
 package com.dinethbakers.hrm.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,6 +12,6 @@ public class BranchMobileEntity {
 
     //@JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "branch_id")
+    @JoinColumn(name = "branch_id", nullable = false)
     private BranchEntity branch;
 }

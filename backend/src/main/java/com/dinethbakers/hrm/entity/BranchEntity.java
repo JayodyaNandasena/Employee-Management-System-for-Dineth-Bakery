@@ -24,8 +24,8 @@ public class BranchEntity {
 
     private String address;
 
-    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BranchMobileEntity> mobileNumbers;
+//    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<BranchMobileEntity> mobileNumbers;
 
     @JsonIgnore
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)

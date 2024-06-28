@@ -85,3 +85,9 @@ Zsrc/main/java/com/dinethbakers/hrm/repository/nativerepository/BranchNativeRepo
 Qsrc/main/java/com/dinethbakers/hrm/repository/jparepository/BranchRepository.java,8\f\8f4ea8c3841eea82f4530e6eb31c51f9a1e036c7
 “
 csrc/main/java/com/dinethbakers/hrm/repository/nativerepository/impl/BranchNativeRepositoryImpl.java,1\e\1ea295050394c1c41fec84202a9a472305bfaf58
+t
+Dsrc/main/java/com/dinethbakers/hrm/controller/JobRoleController.java,9\e\9e87e5cf7755e1116e1f509293ce754bdbf92dca
+n
+>src/main/java/com/dinethbakers/hrm/service/JobRoleService.java,6\6\660db691f1f77d088cb4860a22533ff482c9bc17
+w
+Gsrc/main/java/com/dinethbakers/hrm/service/impl/JobRoleServiceImpl.java,e\9\e9d19a9aae5f9e9c8d14f5c2cc6ac9fb5d0eed7b
