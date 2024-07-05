@@ -11,8 +11,9 @@ import java.util.List;
 @Data
 public class ShiftPolicyEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "policy_id")
-    private Long policyId;
+    private Integer policyId;
 
     private LocalTime startTime;
 

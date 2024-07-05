@@ -6,7 +6,7 @@ import java.time.LocalTime;
 
 @Data
 public class ShiftPolicy {
-    private Long policyId;
+    private Integer policyId;
     private LocalTime startTime;
     private LocalTime endTime;
 }

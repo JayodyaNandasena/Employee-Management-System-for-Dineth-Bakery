@@ -12,7 +12,8 @@ import java.time.LocalTime;
 @Data
 public class AttendanceEntity {
     @Id
-    private String attendanceId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer attendanceId;
     private LocalDate date;
     private LocalTime timeIn;
     private LocalTime timeOut;

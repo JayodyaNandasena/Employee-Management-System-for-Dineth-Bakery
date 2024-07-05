@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 
 @Data
 public class SalaryPolicy {
-    private String policyId;
-    private Double weeklyHoursNeeded;
-    private BigDecimal basicSalaryPerHour;
+    private Integer policyId;
+    private BigDecimal monthlyBasicSalary;
     private BigDecimal overtimeSalaryPerHour;
-    private Double maxOTPerMonth;
+    private BigDecimal epfPercentage;
+    private BigDecimal etfPercentage;
 }

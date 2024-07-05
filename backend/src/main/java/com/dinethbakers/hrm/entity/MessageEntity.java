@@ -12,8 +12,9 @@ import java.util.List;
 @Data
 public class MessageEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "message_id")
-    private String messageId;
+    private Integer messageId;
     private LocalDate date;
     private LocalTime time;
     private String text;

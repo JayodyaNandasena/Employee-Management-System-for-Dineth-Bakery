@@ -7,7 +7,7 @@ import java.time.LocalTime;
 
 @Data
 public class Message {
-    private String messageId;
+    private Integer messageId;
     private LocalDate date;
     private LocalTime time;
     private String text;

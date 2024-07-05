@@ -8,7 +8,7 @@ import java.time.LocalTime;
 
 @Data
 public class Attendance {
-    private String attendanceId;
+    private Integer attendanceId;
     private LocalDate date;
     private LocalTime timeIn;
     private LocalTime timeOut;

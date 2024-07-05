@@ -12,17 +12,21 @@ import java.util.List;
 @Data
 public class SalaryPolicyEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "policy_id")
-    private String policyId;
-    private Double weeklyHoursNeeded;
+    private Integer policyId;
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal basicSalaryPerHour;
+    private BigDecimal monthlyBasicSalary;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal overtimeSalaryPerHour;
 
-    private Double maxOTPerMonth;
+    @Column(precision = 4, scale = 2)
+    private BigDecimal epfPercentage;
+
+    @Column(precision = 4, scale = 2)
+    private BigDecimal etfPercentage;
 
     @JsonIgnore
     @OneToMany(mappedBy = "salaryPolicy", cascade = CascadeType.ALL, orphanRemoval = true)

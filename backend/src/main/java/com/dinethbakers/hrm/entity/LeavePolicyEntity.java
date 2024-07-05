@@ -3,8 +3,6 @@ package com.dinethbakers.hrm.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -12,12 +10,10 @@ import java.util.List;
 @Data
 public class LeavePolicyEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "policy_id")
-    private String policyId;
+    private Integer policyId;
     private Integer noOfPTODays;
-
-    @Column(precision = 10, scale = 2)
-    private BigDecimal deductionPerExtraDay;
 
     @JsonIgnore
     @OneToMany(mappedBy = "leavePolicy", cascade = CascadeType.ALL, orphanRemoval = true)
