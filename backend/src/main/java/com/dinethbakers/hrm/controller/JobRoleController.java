@@ -14,7 +14,7 @@ public class JobRoleController {
     private final JobRoleService jobRoleService;
 
     @PostMapping
-    public void persist(@RequestBody JobRole jobRole){
-        //to be implemented
+    public JobRole persist(@RequestBody JobRole jobRole){
+        return jobRoleService.persist(jobRole);
     }
 }

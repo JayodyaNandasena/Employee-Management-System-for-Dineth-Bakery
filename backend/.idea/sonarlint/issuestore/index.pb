@@ -91,3 +91,11 @@ n
 >src/main/java/com/dinethbakers/hrm/service/JobRoleService.java,6\6\660db691f1f77d088cb4860a22533ff482c9bc17
 w
 Gsrc/main/java/com/dinethbakers/hrm/service/impl/JobRoleServiceImpl.java,e\9\e9d19a9aae5f9e9c8d14f5c2cc6ac9fb5d0eed7b
+‚
+Rsrc/main/java/com/dinethbakers/hrm/repository/jparepository/JobRoleRepository.java,4\d\4d496d8d8ad44719ec01978b55754f39ba1a31e0
+‡
+Wsrc/main/java/com/dinethbakers/hrm/repository/jparepository/SalaryPolicyRepository.java,4\0\4049436bd1a063a0510af96c88b8e98c50be8bf2
+†
+Vsrc/main/java/com/dinethbakers/hrm/repository/jparepository/LeavePolicyRepository.java,7\6\76977ef51d6010eca78099769daf18efe16f93b1
+†
+Vsrc/main/java/com/dinethbakers/hrm/repository/jparepository/ShiftPolicyRepository.java,9\2\92ff986ea0acc989c966c979aaacf3d27a59b186

@@ -1,5 +1,6 @@
 package com.dinethbakers.hrm.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,9 +15,9 @@ public class ShiftPolicyEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "policy_id")
     private Integer policyId;
-
+    @JsonFormat(pattern="HH:mm:ss")
     private LocalTime startTime;
-
+    @JsonFormat(pattern="HH:mm:ss")
     private LocalTime endTime;
 
     @ManyToMany(mappedBy = "shiftPolicies")
