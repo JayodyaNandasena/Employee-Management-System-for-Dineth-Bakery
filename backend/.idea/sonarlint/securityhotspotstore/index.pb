@@ -99,3 +99,5 @@ Wsrc/main/java/com/dinethbakers/hrm/repository/jparepository/SalaryPolicyReposit
 Vsrc/main/java/com/dinethbakers/hrm/repository/jparepository/LeavePolicyRepository.java,7\6\76977ef51d6010eca78099769daf18efe16f93b1
 †
 Vsrc/main/java/com/dinethbakers/hrm/repository/jparepository/ShiftPolicyRepository.java,9\2\92ff986ea0acc989c966c979aaacf3d27a59b186
+f
+6src/main/java/com/dinethbakers/hrm/util/ShiftType.java,e\f\ef5ca56ce45e6b76a43196f1f24357df76e3e02f

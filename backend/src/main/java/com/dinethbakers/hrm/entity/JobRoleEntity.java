@@ -1,5 +1,6 @@
 package com.dinethbakers.hrm.entity;
 
+import com.dinethbakers.hrm.util.ShiftType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -13,6 +14,7 @@ public class JobRoleEntity {
     @Id
     @Column(name = "job_role_id")
     private String jobRoleId;
+
     private String title;
 
     @JsonIgnore
@@ -27,9 +29,11 @@ public class JobRoleEntity {
     @JoinColumn(name = "salary_policy", referencedColumnName = "policy_id")
     private SalaryPolicyEntity salaryPolicy;
 
+    private ShiftType shiftType;
+
     @ManyToMany
     @JoinTable(name = "job_shifts",
-            joinColumns = @JoinColumn(name = "shift_policy_id"),
-            inverseJoinColumns = @JoinColumn(name = "job_role_id"))
+            joinColumns = @JoinColumn(name = "job_role_id"),
+            inverseJoinColumns = @JoinColumn(name = "shift_policy_id"))
     private List<ShiftPolicyEntity> shiftPolicies;
 }

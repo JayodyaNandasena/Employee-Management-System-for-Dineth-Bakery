@@ -4,9 +4,13 @@ import com.dinethbakers.hrm.entity.*;
 import com.dinethbakers.hrm.model.*;
 import com.dinethbakers.hrm.repository.jparepository.*;
 import com.dinethbakers.hrm.service.JobRoleService;
+import com.dinethbakers.hrm.util.ShiftType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,17 +29,33 @@ public class JobRoleServiceImpl implements JobRoleService {
     public JobRole persist(JobRole dto) {
 
         JobRoleEntity jobRoleEntity = mapper.convertValue(dto, JobRoleEntity.class);
+
+        jobRoleEntity.setJobRoleId(generateId());
+
         jobRoleEntity.setSalaryPolicy(
                 findOrCreateSalaryPolicy(dto.getSalaryPolicy()));
         jobRoleEntity.setLeavePolicy(
                 findOrCreateLeavePolicy(dto.getLeavePolicy()));
-        jobRoleEntity.setShiftPolicies(
-                findOrCreateShiftPolicies(dto.getShiftPolicies()));
+        jobRoleEntity.setShiftPolicies(findOrCreateShiftPolicies(
+                        dto.getShiftType(),
+                        dto.getShiftPolicies()));
 
         return mapper.convertValue(
                 jobRoleRepository.save(jobRoleEntity), JobRole.class) ;
     }
 
+    private String generateId(){
+        String maxId = jobRoleRepository.findMaxJobRoleId();
+
+        if (maxId == null){
+            return "R001";
+        }
+
+        String numberPart = maxId.replaceAll("\\D+", "");
+        int number = Integer.parseInt(numberPart);
+        number++;
+        return "R" + String.format("%03d", number);
+    }
 
     private SalaryPolicyEntity findOrCreateSalaryPolicy(SalaryPolicy dto){
         SalaryPolicyEntity byAll =
@@ -71,26 +91,48 @@ public class JobRoleServiceImpl implements JobRoleService {
 
 
     private List<ShiftPolicyEntity> findOrCreateShiftPolicies(
-            List<ShiftPolicy> dtos){
-
+            ShiftType shiftType, List<ShiftPolicy> dtos){
         List<ShiftPolicyEntity> policyEntityList = new ArrayList<>();
 
-        for (ShiftPolicy policy: dtos) {
-            ShiftPolicyEntity byAll = shiftPolicyRepository.findByStartTimeAndEndTime(
-                    policy.getStartTime(),
-                    policy.getEndTime())
+        if (shiftType == ShiftType.FLEXIBLE_HOURS){
+            ShiftPolicy dto = dtos.get(0);
+
+            ShiftPolicyEntity byHours = shiftPolicyRepository
+                    .findByTotalHours(dto.getTotalHours())
                     .orElse(null);
 
-            if (byAll != null){
-                policyEntityList.add(byAll);
+            if (byHours == null){
+                dto.setStartTime(null);
+                dto.setEndTime(null);
+
+                ShiftPolicyEntity savedEntity = shiftPolicyRepository.save(
+                        mapper.convertValue(dto, ShiftPolicyEntity.class));
+
+                policyEntityList.add(savedEntity);
             }else {
-                policyEntityList.add(
-                        shiftPolicyRepository.save(
-                            mapper.convertValue(policy, ShiftPolicyEntity.class))
-                );
+                policyEntityList.add(byHours);
+            }
+        }else{
+            for (ShiftPolicy policy: dtos) {
+                ShiftPolicyEntity byAll = shiftPolicyRepository.findByStartTimeAndEndTime(
+                                policy.getStartTime(),
+                                policy.getEndTime())
+                        .orElse(null);
+
+                if (byAll != null){
+                    policyEntityList.add(byAll);
+                }else {
+                    long hours = policy.getStartTime().until(policy.getEndTime(), ChronoUnit.HOURS);
+                    long minutes = policy.getStartTime().until(policy.getEndTime(), ChronoUnit.MINUTES) % 60;
+                    policy.setTotalHours(LocalTime.of((int) hours, (int) minutes));
+
+                    policyEntityList.add(
+                            shiftPolicyRepository.save(
+                                    mapper.convertValue(policy, ShiftPolicyEntity.class))
+                    );
+                }
             }
         }
-
         return policyEntityList;
     }
 }
