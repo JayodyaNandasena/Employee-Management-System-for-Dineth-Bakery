@@ -15,6 +15,7 @@ public class JobRoleEntity {
     @Column(name = "job_role_id")
     private String jobRoleId;
 
+    @Column(unique = true)
     private String title;
 
     @JsonIgnore
