@@ -3,10 +3,11 @@ package com.dinethbakers.hrm.controller;
 import com.dinethbakers.hrm.model.JobRole;
 import com.dinethbakers.hrm.service.JobRoleService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @RequestMapping("/jobrole")
 @RestController
@@ -17,4 +18,13 @@ public class JobRoleController {
     public JobRole persist(@RequestBody JobRole jobRole){
         return jobRoleService.persist(jobRole);
     }
+
+    @GetMapping
+    public List<JobRole> getAll(){return jobRoleService.getAll();}
+
+    @GetMapping("/titles")
+    public List<Map<String, String>> getAllTitles(){
+        return jobRoleService.getAllTitles();
+    }
+
 }

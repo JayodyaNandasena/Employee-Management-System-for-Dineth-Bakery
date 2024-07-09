@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -42,6 +44,36 @@ public class JobRoleServiceImpl implements JobRoleService {
 
         return mapper.convertValue(
                 jobRoleRepository.save(jobRoleEntity), JobRole.class) ;
+    }
+
+    @Override
+    public List<JobRole> getAll() {
+        Iterable<JobRoleEntity> entityList = jobRoleRepository.findAll();
+
+        List<JobRole> all = new ArrayList<>();
+
+        for (JobRoleEntity entity: entityList) {
+            all.add(
+                    mapper.convertValue(entity, JobRole.class)
+            );
+        }
+
+        return all;
+    }
+
+    @Override
+    public List<Map<String, String>> getAllTitles() {
+        List<Map<String, String>> titlesList = new ArrayList<>();
+
+        List<String> titleList = jobRoleRepository.findAllTitles();
+
+        for (String title: titleList) {
+            Map<String, String> titleMap = new HashMap<>();
+            titleMap.put("Title", title);
+            titlesList.add(titleMap);
+        }
+
+        return titlesList;
     }
 
     private String generateId(){
