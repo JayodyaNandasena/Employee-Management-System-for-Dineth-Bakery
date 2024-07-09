@@ -5,6 +5,6 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class NonManagement extends Employee {
+public class NonManagement extends EmployeeCreate {
     private Management manager;
 }

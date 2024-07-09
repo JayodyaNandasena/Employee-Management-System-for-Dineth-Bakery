@@ -16,11 +16,9 @@ public class EmployeeEntity {
     @Id
     @Column(name = "employee_id")
     private String employeeId;
-
     private String firstName;
     private String lastName;
     private String nic;
-    private String name;
     private LocalDate dob;
     private String profilePicture;
     private LocalDate hiredDate;
@@ -30,6 +28,7 @@ public class EmployeeEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "employee")
     private AccountEntity account;
 

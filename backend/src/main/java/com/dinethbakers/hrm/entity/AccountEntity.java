@@ -10,6 +10,7 @@ public class AccountEntity {
     @Id
     private String username;
     private String password;
+    @Column(columnDefinition = "boolean default false")
     private Boolean isManager;
 
     @OneToOne(cascade = CascadeType.ALL)
