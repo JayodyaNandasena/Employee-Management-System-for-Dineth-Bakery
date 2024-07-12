@@ -7,7 +7,6 @@ import java.time.LocalDate;
 
 @Data
 public class EmployeeCreate {
-    private String employeeId;
     private String firstName;
     private String lastName;
     private String nic;
@@ -19,7 +18,7 @@ public class EmployeeCreate {
     private Gender gender;
     private String branchName;
     private String jobRoleTitle;
-    private Account account;
+    private AccountCreate account;
     //private List<EmployeeMobile> mobileNumbers;
     //private List<Attendance> attendanceRecords;
     //List<TimeOff> timeOffList;

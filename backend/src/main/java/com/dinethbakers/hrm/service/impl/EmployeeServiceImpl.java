@@ -4,7 +4,7 @@ import com.dinethbakers.hrm.entity.AccountEntity;
 import com.dinethbakers.hrm.entity.BranchEntity;
 import com.dinethbakers.hrm.entity.EmployeeEntity;
 import com.dinethbakers.hrm.entity.JobRoleEntity;
-import com.dinethbakers.hrm.model.Account;
+import com.dinethbakers.hrm.model.AccountCreate;
 import com.dinethbakers.hrm.model.EmployeeCreate;
 import com.dinethbakers.hrm.model.EmployeeRead;
 import com.dinethbakers.hrm.repository.jparepository.AccountRepository;
@@ -14,6 +14,7 @@ import com.dinethbakers.hrm.repository.jparepository.JobRoleRepository;
 import com.dinethbakers.hrm.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         EmployeeRead savedEmployee = mapper.convertValue(savedEntity, EmployeeRead.class);
 
-        savedEmployee.setAccount(persistAccount(savedEntity.getEmployeeId(), dto.getAccount()));
+        persistAccount(savedEntity.getEmployeeId(), dto.getAccountCreate());
 
         return savedEmployee;
     }
@@ -66,15 +67,18 @@ public class EmployeeServiceImpl implements EmployeeService {
         number++;
         return "E" + String.format("%03d", number);
     }
-    private Account persistAccount(String employeeId, Account account){
+    private AccountCreate persistAccount(String employeeId, AccountCreate accountCreate){
         Optional<EmployeeEntity> byId = employeeRepository.findById(employeeId);
 
-        AccountEntity accountEntity = mapper.convertValue(account, AccountEntity.class);
+        AccountEntity accountEntity = mapper.convertValue(accountCreate, AccountEntity.class);
 
-        byId.ifPresent(accountEntity::setEmployee);
+        if (byId.isPresent()) {
+            accountEntity.setEmployee(byId.get());
+            accountEntity.setPassword(BCrypt.hashpw(accountCreate.getPassword(), BCrypt.gensalt()));
+        }
 
         return mapper.convertValue(
-            accountRepository.save(accountEntity), Account.class
+            accountRepository.save(accountEntity), AccountCreate.class
         );
     }
     private BranchEntity getBranchByName(String name){
