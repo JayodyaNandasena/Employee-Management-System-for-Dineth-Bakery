@@ -39,7 +39,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         EmployeeRead savedEmployee = mapper.convertValue(savedEntity, EmployeeRead.class);
 
-        persistAccount(savedEntity.getEmployeeId(), dto.getAccountCreate());
+        persistAccount(savedEntity.getEmployeeId(), dto.getAccount());
 
         return savedEmployee;
     }
