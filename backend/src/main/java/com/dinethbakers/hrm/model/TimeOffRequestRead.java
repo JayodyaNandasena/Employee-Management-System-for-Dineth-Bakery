@@ -1,5 +1,6 @@
 package com.dinethbakers.hrm.model;
 
+import com.dinethbakers.hrm.util.Status;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,4 +12,5 @@ public class TimeOffRequestRead {
     private LocalDateTime requestDateTime;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
+    private Status status;
 }

@@ -13,7 +13,8 @@ public interface TimeOffService {
     ResponseEntity<Map<String, Object>> persistRequest(TimeOffRequest dto);
     ResponseEntity<Map<String, Object>> manageRequest(TimeOffApproval dto);
 
-    List<TimeOffRequestRead> getAll(Status status);
+    List<TimeOffRequestRead> getAllByStatus(String requesterId, Status status);
+    List<TimeOffRequestRead> getAll(String requesterId);
 
-    List<TimeOffRequestRead> getById(String requestId);
+    TimeOffRequestRead getById(String requestId);
 }

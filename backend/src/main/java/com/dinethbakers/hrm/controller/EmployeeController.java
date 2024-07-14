@@ -17,6 +17,11 @@ public class EmployeeController {
         return employeeService.persist(dto);
     }
 
+    @PutMapping
+    public EmployeeRead update(@RequestBody EmployeeCreate dto){
+        return employeeService.update(dto);
+    }
+
     @GetMapping("/by-id")
     public EmployeeRead getById(@RequestParam String id){
         return employeeService.getById(id);

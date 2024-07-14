@@ -5,8 +5,6 @@ f
 6src/main/java/com/dinethbakers/hrm/model/OverTime.java,6\2\623bdb68d290fb9fc1a3f7e092322331ba56bec9
 h
 8src/main/java/com/dinethbakers/hrm/model/Attendance.java,6\6\668b2f90f550e8a38bc74af3805755c67705dfb2
-e
-5src/main/java/com/dinethbakers/hrm/model/TimeOff.java,3\1\31d4e47ac73532b4e5501f3dfef957ffd7d7487c
 c
 3src/main/java/com/dinethbakers/hrm/util/Gender.java,8\4\84af7b23be0510183b9c87081c1046086720e64d
 c
@@ -125,8 +123,6 @@ i
 9src/main/java/com/dinethbakers/hrm/model/AccountRead.java,9\d\9d8ac79272b08572c17dd8426878188000d8909a
 w
 Gsrc/main/java/com/dinethbakers/hrm/controller/AttendanceController.java,4\2\4202888ae8b1ec7102e906f63ebbefb70b6addd4
-r
-Bsrc/main/java/com/dinethbakers/hrm/controller/LeaveController.java,b\9\b97e059cefb1a3311be1f2d8f05061e21a60eb04
 u
 Esrc/main/java/com/dinethbakers/hrm/controller/OverTimeController.java,7\4\741d8bb312cea85f6af63c8c10c1a729064eaa4e
 s
@@ -151,3 +147,7 @@ p
 @src/main/java/com/dinethbakers/hrm/model/TimeOffRequestRead.java,c\4\c4a3d6050356ae9b9b96db26f59ffe38a13a87a5
 ‚
 Rsrc/main/java/com/dinethbakers/hrm/repository/jparepository/TimeOffRepository.java,4\1\41db93a491038173ffa1e9f35514ae6594ac82a5
+m
+=src/main/java/com/dinethbakers/hrm/service/SalaryService.java,0\6\067e196de09e99791ba95e4cf200f9dde444c2b1
+d
+4src/main/java/com/dinethbakers/hrm/model/Salary.java,e\7\e7c09681877336c152bcc352ac2131a3919ab9fb

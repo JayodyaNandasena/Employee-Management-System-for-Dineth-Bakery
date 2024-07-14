@@ -45,6 +45,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public EmployeeRead update(EmployeeCreate dto) {
+        EmployeeEntity entity = mapper.convertValue(dto, EmployeeEntity.class);
+
+        entity.setEmployeeId(dto.getEmployeeId());
+        entity.setBranch(getBranchByName(dto.getBranchName()));
+        entity.setJobRole(getJobRoleByTitle(dto.getJobRoleTitle()));
+
+        EmployeeEntity savedEntity = employeeRepository.save(entity);
+
+        EmployeeRead savedEmployee = mapper.convertValue(savedEntity, EmployeeRead.class);
+
+        persistAccount(savedEntity.getEmployeeId(), dto.getAccount());
+
+        return savedEmployee;
+    }
+
+    @Override
     public EmployeeRead getById(String id) {
         Optional<EmployeeEntity> byId = employeeRepository.findById(id);
 

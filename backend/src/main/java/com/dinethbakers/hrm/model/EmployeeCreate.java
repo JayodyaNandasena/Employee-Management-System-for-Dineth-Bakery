@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Data
 public class EmployeeCreate {
+    private String employeeId;
     private String firstName;
     private String lastName;
     private String nic;

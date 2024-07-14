@@ -5,6 +5,7 @@ import com.dinethbakers.hrm.entity.TimeOffEntity;
 import com.dinethbakers.hrm.model.TimeOffApproval;
 import com.dinethbakers.hrm.model.TimeOffRequest;
 import com.dinethbakers.hrm.model.TimeOffRequestRead;
+import com.dinethbakers.hrm.repository.jparepository.BranchRepository;
 import com.dinethbakers.hrm.repository.jparepository.EmployeeRepository;
 import com.dinethbakers.hrm.repository.jparepository.TimeOffRepository;
 import com.dinethbakers.hrm.service.TimeOffService;
@@ -22,6 +23,7 @@ import java.util.*;
 public class TimeOffServiceImpl implements TimeOffService {
     private final TimeOffRepository timeOffRepository;
     private final EmployeeRepository employeeRepository;
+    private final BranchRepository branchRepository;
     private final ObjectMapper mapper;
 
     @Override
@@ -99,20 +101,80 @@ public class TimeOffServiceImpl implements TimeOffService {
     }
 
     @Override
-    public List<TimeOffRequestRead> getAll(Status status) {
-        Iterable<TimeOffEntity> allEntities = timeOffRepository.findAll();
+    public List<TimeOffRequestRead> getAllByStatus(String requesterId, Status status) {
+        String branchId = employeeRepository.findBranchByEmployeeId(requesterId).getBranchId();
+        String branchName = branchRepository.findById(branchId).get().getName();
 
         List<TimeOffRequestRead> requests = new ArrayList<>();
 
-        allEntities.forEach(requestEntity ->
-                requests.add(mapper.convertValue(requestEntity, TimeOffRequestRead.class)));
+        for (TimeOffEntity byStatus : timeOffRepository.findByStatus(status)) {
+
+            if (Objects.equals(branchId,
+                    employeeRepository.findBranchByEmployeeId(
+                            byStatus.getEmployee().getEmployeeId()).getBranchId())){
+
+                TimeOffRequestRead requestRead = mapper.convertValue(byStatus, TimeOffRequestRead.class);
+
+                requestRead.getEmployee().setBranchName(branchName);
+
+                requestRead.getEmployee().setJobRoleTitle(
+                        byStatus.getEmployee().getJobRole().getTitle()
+                );
+
+                requests.add(requestRead);
+            }
+        }
+        return requests;
+    }
+
+    @Override
+    public List<TimeOffRequestRead> getAll(String requesterId) {
+        String branchId = employeeRepository.findBranchByEmployeeId(requesterId).getBranchId();
+        String branchName = branchRepository.findById(branchId).get().getName();
+
+        List<TimeOffRequestRead> requests = new ArrayList<>();
+
+        for (TimeOffEntity byStatus : timeOffRepository.findAll()) {
+
+            if (Objects.equals(branchId,
+                    employeeRepository.findBranchByEmployeeId(
+                            byStatus.getEmployee().getEmployeeId()).getBranchId())){
+
+                TimeOffRequestRead requestRead = mapper.convertValue(byStatus, TimeOffRequestRead.class);
+
+                requestRead.getEmployee().setBranchName(branchName);
+
+                requestRead.getEmployee().setJobRoleTitle(
+                        byStatus.getEmployee().getJobRole().getTitle()
+                );
+
+                requests.add(requestRead);
+            }
+        }
+
 
         return requests;
     }
 
     @Override
-    public List<TimeOffRequestRead> getById(String requestId) {
-        return Collections.emptyList();
+    public TimeOffRequestRead getById(String requestId) {
+        Optional<TimeOffEntity> byId = timeOffRepository.findById(requestId);
+
+        if (byId.isEmpty()){
+            return null;
+        }
+
+        TimeOffRequestRead request = mapper.convertValue(byId.get(), TimeOffRequestRead.class);
+
+        request.getEmployee().setBranchName(
+                byId.get().getEmployee().getBranch().getName()
+        );
+
+        request.getEmployee().setJobRoleTitle(
+                byId.get().getEmployee().getJobRole().getTitle()
+        );
+
+        return request;
     }
 
     private String generateId(){

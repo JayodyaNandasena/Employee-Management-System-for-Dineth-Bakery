@@ -19,12 +19,18 @@ public class TimeOffController {
     private final TimeOffService timeOffService;
 
     @GetMapping
-    public List<TimeOffRequestRead> getAll(@RequestParam Status status){
-        return timeOffService.getAll(status);
+    public List<TimeOffRequestRead> getAll(@RequestParam String requestorId){
+        return timeOffService.getAll(requestorId);
+    }
+    @GetMapping("/byStatus")
+    public List<TimeOffRequestRead> getAllByStatus(
+            @RequestParam Status status,
+            @RequestParam String requestorId){
+        return timeOffService.getAllByStatus(requestorId, status);
     }
 
     @GetMapping("/byId")
-    public List<TimeOffRequestRead> getById(@RequestParam String requestId){
+    public TimeOffRequestRead getById(@RequestParam String requestId){
         return timeOffService.getById(requestId);
     }
 
