@@ -12,21 +12,23 @@ public class TimeOffEntity {
     @Id
     private String requestId;
     private String text;
+    @Column(nullable = false)
     private LocalDateTime requestDateTime;
+    @Column(nullable = false)
     private LocalDateTime startDateTime;
+    @Column(nullable = false)
     private LocalDateTime endDateTime;
-    private Boolean isPaid;
     @Enumerated(EnumType.STRING)
     private Status status;
     private LocalDateTime approvedDateTime;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
+    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id", nullable = false)
     private EmployeeEntity employee;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "approved_manager_id", referencedColumnName = "employee_id")
-    private ManagementEntity manager;
+    @JoinColumn(name = "approved_by", referencedColumnName = "employee_id")
+    private EmployeeEntity manager;
 
 
 }

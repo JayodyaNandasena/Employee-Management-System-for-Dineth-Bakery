@@ -5,10 +5,8 @@ import com.dinethbakers.hrm.entity.BranchEntity;
 import com.dinethbakers.hrm.entity.EmployeeEntity;
 import com.dinethbakers.hrm.model.Attendance;
 import com.dinethbakers.hrm.repository.jparepository.AttendanceRepository;
-import com.dinethbakers.hrm.repository.jparepository.BranchRepository;
 import com.dinethbakers.hrm.repository.jparepository.EmployeeRepository;
 import com.dinethbakers.hrm.service.AttendanceService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,38 +20,12 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AttendanceServiceImpl implements AttendanceService {
     private final AttendanceRepository attendanceRepository;
-    private  final BranchRepository branchRepository;
     private final EmployeeRepository employeeRepository;
-    private final ObjectMapper mapper;
-//    @Override
-//    public String markClockIn(Attendance dto) {
-//        if (attendanceRepository.existsByEmployeeIdAndTimeInIsNotNull(dto.getEmployeeId())) {
-//            if (Boolean.TRUE.equals(matchLocations(dto.getEmployeeId(), dto.getLatitude(), dto.getLongitude()))) {
-//                AttendanceEntity entity = new AttendanceEntity();
-//                entity.setDate(dto.getDate());
-//                entity.setTimeIn(dto.getTime());
-//
-//                Optional<EmployeeEntity> employeeById = employeeRepository.findById(dto.getEmployeeId());
-//
-//                if (employeeById.isPresent()) {
-//                    entity.setEmployee(employeeById.get());
-//                    attendanceRepository.save(entity);
-//                    return "Clock in recorded successfully.";
-//                } else {
-//                    return "Employee not found.";
-//                }
-//            } else {
-//                return "Location mismatch: You must clock in within 1 km of your branch.";
-//            }
-//        } else {
-//            return "You have already clocked in for today.";
-//        }
-//    }
 
     @Override
     public ResponseEntity<Map<String, Object>> markClockIn(Attendance dto) {
         Map<String, Object> result = new HashMap<>();
-        String key = "status";
+        String key1 = "status";
         String key2 = "message";
 
         if (!attendanceRepository
@@ -71,21 +43,21 @@ public class AttendanceServiceImpl implements AttendanceService {
                 if (employeeById.isPresent()) {
                     entity.setEmployee(employeeById.get());
                     attendanceRepository.save(entity);
-                    result.put(key, true);
+                    result.put(key1, true);
                     result.put(key2, "Clock in recorded successfully.");
                     return new ResponseEntity<>(result, HttpStatus.OK);
                 } else {
-                    result.put(key, false);
+                    result.put(key1, false);
                     result.put(key2, "Employee not found.");
                     return new ResponseEntity<>(result, HttpStatus.NOT_FOUND);
                 }
             } else {
-                result.put(key, false);
+                result.put(key1, false);
                 result.put(key2, "Location mismatch: You must clock in within 1 km of your branch.");
                 return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
             }
         }
-        result.put(key, false);
+        result.put(key1, false);
         result.put(key2, "You have already clocked in for today.");
         return new ResponseEntity<>(result, HttpStatus.CONFLICT);
     }

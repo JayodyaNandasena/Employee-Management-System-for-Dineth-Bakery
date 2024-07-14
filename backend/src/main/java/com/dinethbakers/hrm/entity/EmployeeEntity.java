@@ -47,9 +47,11 @@ public class EmployeeEntity {
     @JoinColumn(name = "job_role_id", referencedColumnName = "job_role_id")
     private JobRoleEntity jobRole;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     List<TimeOffEntity> timeOffList;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "employees")
     private List<MessageEntity> messages;
 
