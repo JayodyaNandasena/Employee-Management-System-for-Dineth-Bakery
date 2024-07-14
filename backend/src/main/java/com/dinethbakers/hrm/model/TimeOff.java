@@ -7,12 +7,10 @@ import java.time.LocalDateTime;
 
 @Data
 public class TimeOff {
-    private String requestId;
     private String text;
     private LocalDateTime requestDateTime;
     private LocalDateTime startDateTime;
     private LocalDateTime endDateTime;
-    private Boolean isPaid;
     private Status status;
     private LocalDateTime approvedDateTime;
 }
