@@ -12,11 +12,15 @@ import java.time.LocalTime;
 @Data
 public class OverTimeEntity {
     @Id
-    @Column(name = "policy_id")
+    @Column(name = "request_id")
     private String requestId;
+    @Column(nullable = false)
     private LocalDateTime date;
+    @Column(nullable = false)
     private LocalTime startTime;
+    @Column(nullable = false)
     private LocalTime endTime;
+    private String text;
     private Double paymentAmount;
 
     @Enumerated(EnumType.STRING)
@@ -24,14 +28,13 @@ public class OverTimeEntity {
 
     private LocalDateTime approvedDateTime;
 
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "requester_id", referencedColumnName = "employee_id")
-    private NonManagementEntity employee;
+    private EmployeeEntity employee;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "approver_id", referencedColumnName = "employee_id")
-    private ManagementEntity manager;
+    private EmployeeEntity manager;
 
 
 }

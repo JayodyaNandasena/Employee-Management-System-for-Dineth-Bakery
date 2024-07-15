@@ -1,5 +1,7 @@
 package com.dinethbakers.hrm.service;
 
-public interface SalaryService {
+import com.dinethbakers.hrm.model.Salary;
 
+public interface SalaryService {
+    Salary getSalarySlip(String employeeId);
 }

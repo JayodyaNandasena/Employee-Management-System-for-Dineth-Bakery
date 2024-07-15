@@ -3,17 +3,13 @@ package com.dinethbakers.hrm.service.impl;
 import com.dinethbakers.hrm.entity.BranchEntity;
 import com.dinethbakers.hrm.model.Branch;
 import com.dinethbakers.hrm.repository.jparepository.BranchRepository;
-import com.dinethbakers.hrm.repository.nativerepository.BranchNativeRepository;
 import com.dinethbakers.hrm.service.BranchService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -21,7 +17,6 @@ import java.util.Optional;
 public class BranchServiceImpl implements BranchService {
 
     private final BranchRepository branchJpaRepository;
-    private final BranchNativeRepository nativeRepository;
     private final ObjectMapper mapper;
 
     @Override
@@ -40,29 +35,13 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public List<Branch> getByName(String name) {
-        List<Map<String, Object>> resultList = nativeRepository.findByName(name);
+    public Branch getByName(String name) {
+        Optional<BranchEntity> byName = branchJpaRepository.findByName(name);
 
-        if (resultList == null){
-            return Collections.emptyList();
-        }
+        if (byName.isEmpty())
+            return null;
 
-        List<Branch> branchList = new ArrayList<>();
-
-        resultList.forEach(branchMap -> {
-            Branch branch =
-                    mapper.convertValue(branchMap, Branch.class);
-            branch.setBranchId(branchMap.get("branch_id").toString());
-            branchList.add(branch);
-        });
-
-        return branchList;
-    }
-
-    @Override
-    public Branch getByLocation(BigDecimal latitude, BigDecimal longitude) {
-        Optional<BranchEntity> byLocation = nativeRepository.findByLocation(latitude, longitude);
-        return mapper.convertValue(byLocation, Branch.class);
+        return mapper.convertValue(byName,Branch.class);
     }
 
     @Override
@@ -79,10 +58,10 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public Branch update(Branch branch) {
-        Optional<BranchEntity> update = nativeRepository.update(
-                mapper.convertValue(branch, BranchEntity.class));
-
-        return mapper.convertValue(update, Branch.class);
+        BranchEntity branchEntity = mapper.convertValue(branch, BranchEntity.class);
+        branchEntity.setBranchId(branch.getBranchId());
+        BranchEntity savedEntity = branchJpaRepository.save(branchEntity);
+        return mapper.convertValue(savedEntity, Branch.class);
     }
 
     @Override
@@ -97,8 +76,13 @@ public class BranchServiceImpl implements BranchService {
         return false;
     }
 
+    @Override
+    public List<String> getAllNames() {
+        return branchJpaRepository.findAllNames();
+    }
+
     private String generateId(){
-        String lastId = nativeRepository.getLastId();
+        String lastId = branchJpaRepository.findMaxBranchId();
 
         if (lastId == null){
             return "B001";
