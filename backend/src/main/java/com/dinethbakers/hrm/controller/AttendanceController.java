@@ -4,15 +4,13 @@ import com.dinethbakers.hrm.model.Attendance;
 import com.dinethbakers.hrm.service.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.Map;
 
 @RequiredArgsConstructor
+@CrossOrigin
 @RestController
 @RequestMapping("/attendance")
 public class AttendanceController {

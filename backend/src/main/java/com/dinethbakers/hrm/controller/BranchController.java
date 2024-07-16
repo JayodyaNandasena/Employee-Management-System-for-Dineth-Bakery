@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/branch")
 @RestController
 public class BranchController {

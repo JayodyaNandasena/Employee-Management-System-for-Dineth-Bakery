@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
+@CrossOrigin
 @RequestMapping("/jobrole")
 @RestController
 public class JobRoleController {

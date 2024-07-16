@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RequiredArgsConstructor
+@CrossOrigin
 @RestController
 @RequestMapping("/overtime")
 public class OverTimeController {
