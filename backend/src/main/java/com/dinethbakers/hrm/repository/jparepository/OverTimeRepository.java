@@ -15,7 +15,7 @@ public interface OverTimeRepository extends CrudRepository<OverTimeEntity,String
 
     List<OverTimeEntity> findByStatus(Status status);
 
-    @Query("SELECT SUM(o.paymentAmount) FROM OverTimeEntity o WHERE o.employee.employeeId = :employeeId")
+    @Query("SELECT SUM(o.paymentAmount) FROM OverTimeEntity o WHERE o.employee.employeeId = :employeeId AND o.status = 'APPROVED'")
     BigDecimal findTotalOvertimePaymentByEmployeeId(@Param("employeeId") String employeeId);
 
 }

@@ -1,0 +1,93 @@
+<div class="container-fluid">
+    <div class="mb-3">
+        <h4>Manage OT Requests</h4>
+    </div>
+    <ul class="nav nav-tabs" id="otTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pending-tab" data-bs-toggle="tab" data-bs-target="#pending" type="button" role="tab" aria-controls="pending" aria-selected="true">Pending</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="approved-tab" data-bs-toggle="tab" data-bs-target="#approved" type="button" role="tab" aria-controls="approved" aria-selected="false">Approved</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="rejected-tab" data-bs-toggle="tab" data-bs-target="#rejected" type="button" role="tab" aria-controls="rejected" aria-selected="false">Rejected</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="otTabsContent">
+        <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
+            <table class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>From Time</th>
+                        <th>To Time</th>
+                        <th>Reason</th>
+                        <th>Employee Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-bs-toggle="modal" data-bs-target="#otDetailsModal" onclick="fillModal(this)">
+                        <td>2024-07-15</td>
+                        <td>18:00</td>
+                        <td>20:00</td>
+                        <td>Project Deadline</td>
+                        <td>John Doe</td>
+                        <td>On Hold</td>
+                    </tr>
+                    <!-- More rows as needed -->
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="approved" role="tabpanel" aria-labelledby="approved-tab">
+            <table class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>From Time</th>
+                        <th>To Time</th>
+                        <th>Reason</th>
+                        <th>Employee Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-bs-toggle="modal" data-bs-target="#otDetailsModal" onclick="fillModal(this)">
+                        <td>2024-07-10</td>
+                        <td>17:00</td>
+                        <td>19:00</td>
+                        <td>System Upgrade</td>
+                        <td>Jane Smith</td>
+                        <td>Approved</td>
+                    </tr>
+                    <!-- More rows as needed -->
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="rejected" role="tabpanel" aria-labelledby="rejected-tab">
+            <table class="table mt-3">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>From Time</th>
+                        <th>To Time</th>
+                        <th>Reason</th>
+                        <th>Employee Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr data-bs-toggle="modal" data-bs-target="#otDetailsModal" onclick="fillModal(this)">
+                        <td>2024-07-12</td>
+                        <td>18:00</td>
+                        <td>21:00</td>
+                        <td>Maintenance</td>
+                        <td>Bob Johnson</td>
+                        <td>Rejected</td>
+                    </tr>
+                    <!-- More rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

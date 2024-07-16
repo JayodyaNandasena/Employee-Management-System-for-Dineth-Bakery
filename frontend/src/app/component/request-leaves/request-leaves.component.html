@@ -1,0 +1,47 @@
+<main class="content px-3 py-2">
+    <div class="container-fluid">
+        <div class="mb-3">
+            <h4>Request Leaves</h4>
+        </div>
+        <div class="row">
+            <form>
+                <div class="mb-3">
+                    <label for="fromSlot" class="form-label">From Slot</label>
+                    <select id="fromSlot" class="form-select">
+                        <option value="morning">Morning Slot</option>
+                        <option value="evening">Evening Slot</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="fromDate" class="form-label">From Date</label>
+                    <input type="date" id="fromDate" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="toSlot" class="form-label">To Slot</label>
+                    <select id="toSlot" class="form-select">
+                        <option value="morning">Morning Slot</option>
+                        <option value="evening">Evening Slot</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="toDate" class="form-label">To Date</label>
+                    <input type="date" id="toDate" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="reason" class="form-label">Reason</label>
+                    <textarea id="reason" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="applyTo" class="form-label">Apply To</label>
+                    <input type="text" id="applyTo" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="attachment" class="form-label">Attachment</label>
+                    <input type="file" id="attachment" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-secondary">Discard</button>
+            </form>
+        </div>
+    </div>
+</main>
