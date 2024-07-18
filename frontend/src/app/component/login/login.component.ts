@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SessionStorageService } from '../../services/session-storage.service';
 import { Router } from '@angular/router';
+import { LoginRequest } from '../../models/models';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -12,19 +14,21 @@ import { Router } from '@angular/router';
 })
 
 export class LoginComponent {
-  public LoginRequest = {
-    username: undefined,
-    password: undefined
+
+  public loginRequest:LoginRequest = {
+    username: "",
+    password: ""
   }
 
   constructor(
     private sessionStorageService: SessionStorageService,
-    private router: Router) {}
+    private router: Router,
+    private toastr: ToastrService) {}
   
   login(){
     fetch("http://localhost:8081/login",{
       method:'POST',
-      body: JSON.stringify(this.LoginRequest),
+      body: JSON.stringify(this.loginRequest),
       headers : {"Content-type": "application/json"}
     })
     .then(res => res.json())
@@ -43,7 +47,9 @@ export class LoginComponent {
         }
 
       }else{
-        console.log("false"+data)
+        this.toastr.error(data.message, 'Login Failed',{
+          timeOut: 3000,
+        });
       }
     })
   }

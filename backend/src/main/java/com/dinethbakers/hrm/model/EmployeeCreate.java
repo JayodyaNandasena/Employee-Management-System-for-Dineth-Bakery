@@ -20,8 +20,4 @@ public class EmployeeCreate {
     private String branchName;
     private String jobRoleTitle;
     private AccountCreate account;
-    //private List<EmployeeMobile> mobileNumbers;
-    //private List<Attendance> attendanceRecords;
-    //List<TimeOff> timeOffList;
-    //private List<Message> messages;
 }

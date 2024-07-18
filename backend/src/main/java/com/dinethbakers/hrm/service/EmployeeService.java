@@ -5,6 +5,6 @@ import com.dinethbakers.hrm.model.EmployeeRead;
 
 public interface EmployeeService {
     EmployeeRead persist(EmployeeCreate dto);
-    EmployeeRead update(EmployeeCreate dto);
-    EmployeeRead getById(String id);
+    EmployeeCreate update(EmployeeCreate dto);
+    EmployeeCreate getById(String id);
 }

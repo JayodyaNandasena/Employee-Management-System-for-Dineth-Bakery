@@ -11,6 +11,7 @@ import com.dinethbakers.hrm.repository.jparepository.AccountRepository;
 import com.dinethbakers.hrm.repository.jparepository.BranchRepository;
 import com.dinethbakers.hrm.repository.jparepository.EmployeeRepository;
 import com.dinethbakers.hrm.repository.jparepository.JobRoleRepository;
+import com.dinethbakers.hrm.repository.nativerepository.EmployeeNativeRepository;
 import com.dinethbakers.hrm.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.Optional;
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final EmployeeNativeRepository employeeNativeRepository;
     private final AccountRepository accountRepository;
     private final BranchRepository branchRepository;
     private final JobRoleRepository jobRoleRepository;
@@ -45,28 +47,48 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeRead update(EmployeeCreate dto) {
+    public EmployeeCreate update(EmployeeCreate dto) {
         EmployeeEntity entity = mapper.convertValue(dto, EmployeeEntity.class);
 
-        entity.setEmployeeId(dto.getEmployeeId());
-        entity.setBranch(getBranchByName(dto.getBranchName()));
-        entity.setJobRole(getJobRoleByTitle(dto.getJobRoleTitle()));
+        EmployeeEntity editedEntity = employeeNativeRepository.editEmployee(entity);
 
-        EmployeeEntity savedEntity = employeeRepository.save(entity);
+        EmployeeCreate savedEmployee = mapper.convertValue(editedEntity, EmployeeCreate.class);
 
-        EmployeeRead savedEmployee = mapper.convertValue(savedEntity, EmployeeRead.class);
+        persistAccount(savedEmployee.getEmployeeId(), dto.getAccount());
 
-        persistAccount(savedEntity.getEmployeeId(), dto.getAccount());
+        savedEmployee.setAccount(
+                mapper.convertValue(
+                        accountRepository.findByEmployeeEmployeeId(savedEmployee.getEmployeeId()),
+                        AccountCreate.class)
+        );
 
+        savedEmployee.setBranchName(editedEntity.getBranch().getName());
+
+        savedEmployee.setJobRoleTitle(
+                editedEntity.getJobRole().getTitle()
+        );
         return savedEmployee;
     }
 
     @Override
-    public EmployeeRead getById(String id) {
+    public EmployeeCreate getById(String id) {
         Optional<EmployeeEntity> byId = employeeRepository.findById(id);
 
         if (byId.isPresent()){
-            return mapper.convertValue(byId, EmployeeRead.class);
+            EmployeeCreate employee = mapper.convertValue(byId, EmployeeCreate.class);
+            employee.setAccount(
+                    mapper.convertValue(
+                            accountRepository.findByEmployeeEmployeeId(id),
+                            AccountCreate.class)
+            );
+
+            employee.setBranchName(byId.get().getBranch().getName());
+
+            employee.setJobRoleTitle(
+                    byId.get().getJobRole().getTitle()
+            );
+
+            return employee;
         }
         return null;
     }

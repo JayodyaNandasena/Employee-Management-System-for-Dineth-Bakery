@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarNonmanagerComponent } from '../sidebar-nonmanager/sidebar-nonmanager.component';
+import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard-nonmanager',
   standalone: true,
-  imports: [SidebarNonmanagerComponent],
+  imports: [SidebarNonmanagerComponent,HttpClientModule],
+  providers: [HttpClient],
   templateUrl: './dashboard-nonmanager.component.html',
   styleUrl: './dashboard-nonmanager.component.css'
 })
@@ -22,6 +25,10 @@ export class DashboardNonmanagerComponent implements OnInit {
     latitude: 0.0,
     longitude: 0.0
   }
+
+  constructor(
+    private httpClient:HttpClient,
+    private toastr: ToastrService){}
 
   ngOnInit() {
     this.employeeName = sessionStorage.getItem('employeeName');
@@ -73,6 +80,14 @@ export class DashboardNonmanagerComponent implements OnInit {
   }
 
   clockIn() {
+    // this.httpClient.post(
+    //   "http://localhost:8081/attendance/clockIn",
+    //   this.AttendanceRequest)
+    //   .subscribe(data => {
+    //     console.log(data);
+    //   }).unsubscribe();
+
+
     this.getCurrentLocation()
       .then(() => {
         this.AttendanceRequest.date = this.date;
@@ -88,12 +103,48 @@ export class DashboardNonmanagerComponent implements OnInit {
       .then(data => {
         if (data.status === true) {
           console.log(data);
+          this.toastr.success(data.message,'Success');
         } else {
           console.log("false: " + data);
+          this.toastr.warning(data.message,'ClockIn Failed');
         }
       })
       .catch(error => {
-        console.error("Error during clock-in process:", error);
+        this.toastr.error('System error','Error');
+      });
+  }
+  clockOut() {
+    // this.httpClient.post(
+    //   "http://localhost:8081/attendance/clockIn",
+    //   this.AttendanceRequest)
+    //   .subscribe(data => {
+    //     console.log(data);
+    //   }).unsubscribe();
+
+
+    this.getCurrentLocation()
+      .then(() => {
+        this.AttendanceRequest.date = this.date;
+        this.AttendanceRequest.time = this.time;
+  
+        return fetch("http://localhost:8081/attendance/clockOut", {
+          method: 'POST',
+          body: JSON.stringify(this.AttendanceRequest),
+          headers: { "Content-type": "application/json" }
+        });
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === true) {
+          console.log(data);
+          this.toastr.success(data.message,'Success');
+        } else {
+          console.log("false: " + data);
+          this.toastr.warning(data.message,'ClockIn Failed');
+        }
+      })
+      .catch(error => {
+        this.toastr.error('System error','Error');
       });
   }
 }

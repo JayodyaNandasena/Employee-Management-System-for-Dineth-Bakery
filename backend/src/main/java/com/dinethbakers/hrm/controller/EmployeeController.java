@@ -19,12 +19,12 @@ public class EmployeeController {
     }
 
     @PutMapping
-    public EmployeeRead update(@RequestBody EmployeeCreate dto){
+    public EmployeeCreate update(@RequestBody EmployeeCreate dto){
         return employeeService.update(dto);
     }
 
     @GetMapping("/by-id")
-    public EmployeeRead getById(@RequestParam String id){
+    public EmployeeCreate getById(@RequestParam String id){
         return employeeService.getById(id);
     }
 }
