@@ -9,5 +9,5 @@ public interface JobRoleService {
     JobRole persist (JobRole dto);
 
     List<JobRole> getAll();
-    List<Map<String, String>> getAllTitles();
+    List<String> getAllTitles();
 }

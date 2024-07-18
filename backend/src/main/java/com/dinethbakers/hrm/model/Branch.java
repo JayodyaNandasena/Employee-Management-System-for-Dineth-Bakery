@@ -11,5 +11,4 @@ public class Branch {
     private BigDecimal latitude;
     private BigDecimal longitude;
     private String address;
-//    private List<BranchMobile> mobileNumbers;
 }

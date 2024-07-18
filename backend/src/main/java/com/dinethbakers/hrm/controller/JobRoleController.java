@@ -24,7 +24,7 @@ public class JobRoleController {
     public List<JobRole> getAll(){return jobRoleService.getAll();}
 
     @GetMapping("/titles")
-    public List<Map<String, String>> getAllTitles(){
+    public List<String> getAllTitles(){
         return jobRoleService.getAllTitles();
     }
 

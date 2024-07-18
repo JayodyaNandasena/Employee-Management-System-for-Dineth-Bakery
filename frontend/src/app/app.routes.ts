@@ -7,6 +7,7 @@ import { ManageOtComponent } from './component/manage-ot/manage-ot.component';
 import { ProfileComponent } from './component/profile/profile.component';
 import { RequestLeavesComponent } from './component/request-leaves/request-leaves.component';
 import { RequestOtComponent } from './component/request-ot/request-ot.component';
+import { ManageEmployeeComponent } from './component/manage-employee/manage-employee.component';
 
 export const routes: Routes = [
     {
@@ -36,6 +37,10 @@ export const routes: Routes = [
     {
         path:"requestOT",
         component: RequestOtComponent
+    },
+    {
+        path:"manageEmployee",
+        component: ManageEmployeeComponent
     },
     {
         path:"",

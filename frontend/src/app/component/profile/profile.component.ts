@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
   }
 
   loadProfile(){
-    fetch("http://localhost:8081/employee/by-id?id="+this.sessionService.getEmployeeId(),{
+    fetch("http://localhost:8081/employee/by-id?id="+this.employeeProfile.employeeId,{
       method:'GET',
       headers : {"Content-type": "application/json"}
     })

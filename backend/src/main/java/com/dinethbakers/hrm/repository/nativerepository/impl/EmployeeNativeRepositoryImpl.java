@@ -36,7 +36,7 @@ public class EmployeeNativeRepositoryImpl implements EmployeeNativeRepository {
         if (rowsAffected > 0) {
             return jpaRepository.findById(updatedEmployee.getEmployeeId()).get();
         } else {
-            return null; // or throw an exception if preferred
+            return null;
         }
     }
 }

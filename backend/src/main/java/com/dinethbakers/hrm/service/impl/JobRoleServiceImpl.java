@@ -62,18 +62,8 @@ public class JobRoleServiceImpl implements JobRoleService {
     }
 
     @Override
-    public List<Map<String, String>> getAllTitles() {
-        List<Map<String, String>> titlesList = new ArrayList<>();
-
-        List<String> titleList = jobRoleRepository.findAllTitles();
-
-        for (String title: titleList) {
-            Map<String, String> titleMap = new HashMap<>();
-            titleMap.put("Title", title);
-            titlesList.add(titleMap);
-        }
-
-        return titlesList;
+    public List<String> getAllTitles() {
+        return jobRoleRepository.findAllTitles();
     }
 
     private String generateId(){
