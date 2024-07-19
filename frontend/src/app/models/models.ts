@@ -4,7 +4,7 @@ export interface LoginRequest {
 }
 
 export interface EmployeeRead {
-    employeeId : string,
+    employeeId : string | null,
     firstName : string,
     lastName : string,
     nic : string,
@@ -48,4 +48,27 @@ export interface Branch{
     latitude:Number,
     longitude:Number,
     address:string
+}
+
+export interface LeaveRequest{
+    employeeId : string | null,
+    text : string,
+    requestDateTime : string,
+    startDateTime : string,
+    endDateTime : string
+}
+
+export interface Salary {
+    basicSalary : Number,
+    epfPercentage : Number,
+    epfAmount : Number,
+    etfPercentage : Number,
+    etfAmount : Number,
+    otHours : Number,
+    otPerHour : Number,
+    grossOTIncome : Number,
+    grossEarnings : Number,
+    grossDeductions : Number,
+    grossSalary : Number
+
 }

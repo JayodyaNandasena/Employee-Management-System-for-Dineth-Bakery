@@ -18,7 +18,7 @@ export class ProfileComponent implements OnInit {
   public isManager: boolean = false;
 
   public employeeProfile:EmployeeRead = {
-    employeeId : "",
+    employeeId : this.sessionService.getEmployeeId(),
     firstName : "",
     lastName : "",
     nic : "",

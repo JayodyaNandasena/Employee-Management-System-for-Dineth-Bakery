@@ -17,7 +17,7 @@
                             <input type="text" class="form-control" id="employeeId" [(ngModel)]="employee.employeeId" />
                         </div>
                         <div class="col-md-2 align-content-end">
-                            <button class="btn btn-primary">Search</button>
+                            <button class="btn btn-primary" (click)="searchEmployee()">Search</button>
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -122,8 +122,9 @@
 
                 <!-- Buttons -->
                 <div class="d-flex justify-content-end">
-                    <button type="button" class="btn btn-secondary me-2" (click)="loadProfile()">Cancel</button>
-                    <button type="button" class="btn btn-info me-2" (click)="updateProfile()">Update</button>
+                    <button type="button" class="btn btn-secondary me-2" (click)="clear()">Cancel</button>
+                    <button type="button" class="btn btn-danger me-2" (click)="updateEmployee()">Delete</button>
+                    <button type="button" class="btn btn-primary me-2" (click)="updateEmployee()">Update</button>
                     <button type="button" class="btn btn-success me-2" (click)="addEmployee()">Add</button>
                 </div>
             </div>

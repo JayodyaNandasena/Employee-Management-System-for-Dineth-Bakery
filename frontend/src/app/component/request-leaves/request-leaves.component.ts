@@ -5,7 +5,7 @@ import { SessionStorageService } from '../../services/session-storage.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-import { Branch, EmployeeRead } from '../../models/models';
+import { Branch, EmployeeRead, LeaveRequest } from '../../models/models';
 
 @Component({
   selector: 'app-request-leaves',
@@ -17,11 +17,28 @@ import { Branch, EmployeeRead } from '../../models/models';
 export class RequestLeavesComponent implements OnInit{
   public isManager: boolean = false;
 
+  public request:LeaveRequest = {
+    employeeId : "",
+    text : "",
+    requestDateTime : "",
+    startDateTime : "",
+    endDateTime : ""
+  }
+
   constructor(
     private sessionService:SessionStorageService,
     private toastr: ToastrService){}
 
   ngOnInit(): void {
     this.isManager = this.sessionService.getIsManager();
+
+    if(this.sessionService.getEmployeeId() != null){
+      this.request.employeeId = this.sessionService.getEmployeeId();
+    }
+    
+  }
+
+  submitRequest(){
+    this.toastr.success("Request Added Successfully","Success");
   }
 }

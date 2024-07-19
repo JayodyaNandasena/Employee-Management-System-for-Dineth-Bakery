@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class TimeOffRequestRead {
     private EmployeeCreate employee;
+    private String requestId;
     private String text;
     private LocalDateTime requestDateTime;
     private LocalDateTime startDateTime;

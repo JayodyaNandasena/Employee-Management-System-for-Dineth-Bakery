@@ -1,6 +1,6 @@
 <div class="row">
 <div class="col-3">
-
+    <app-sidebar-admin></app-sidebar-admin>
 </div>
 <div class="col-9">
     <div class="container-fluid">
@@ -23,26 +23,27 @@
                 <table class="table mt-3">
                     <thead>
                         <tr>
+                            <th>Request Id</th>
                             <th>Employee</th>
                             <th>Reason</th>
                             <th>From</th>
-                            <th>Slot</th>
                             <th>To</th>
-                            <th>Slot</th>
-                            <th>Status</th>
+                            <th>Requested date</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-bs-toggle="modal" data-bs-target="#leaveDetailsModal">
-                            <td>Nimal Basnayake</td>
-                            <td>Medical</td>
-                            <td>2024-07-15</td>
-                            <td>Morning</td>
-                            <td>2024-07-16</td>
-                            <td>Evening</td>
-                            <td>On Hold</td>
+                        <tr *ngFor="let request of pendingList" data-bs-toggle="modal" data-bs-target="#leaveDetailsModal">
+                            <td>{{request.requestId}}</td>
+                            <td>{{request.employee.firstName}}</td>
+                            <td>{{request.text}}</td>
+                            <td>{{request.startDateTime}}</td>
+                            <td>{{request.endDateTime}}</td>
+                            <td>{{request.requestDateTime}}</td>
+                            <td><button class="btn btn-outline-success" (click)="aproveRequest(request.requestId)">Approve</button></td>
+                            <td><button class="btn btn-outline-danger" (click)="rejectRequest(request.requestId)">Reject</button></td>
                         </tr>
-                        <!-- More rows as needed -->
                     </tbody>
                 </table>
             </div>
@@ -50,24 +51,24 @@
                 <table class="table mt-3">
                     <thead>
                         <tr>
+                            <th>Request Id</th>
                             <th>Employee</th>
                             <th>Reason</th>
                             <th>From</th>
-                            <th>Slot</th>
                             <th>To</th>
-                            <th>Slot</th>
-                            <th>Status</th>
+                            <th>Requested date</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-bs-toggle="modal" data-bs-target="#leaveDetailsModal">
-                            <td>Udeshi Rathnayake</td>
-                            <td>Vacation</td>
-                            <td>2024-07-10</td>
-                            <td>Morning</td>
-                            <td>2024-07-20</td>
-                            <td>Evening</td>
-                            <td>Approved</td>
+                        <tr *ngFor="let request of approvedList" data-bs-toggle="modal" data-bs-target="#leaveDetailsModal">
+                            <td>{{request.requestId}}</td>
+                            <td>{{request.employee.firstName}}</td>
+                            <td>{{request.text}}</td>
+                            <td>{{request.startDateTime}}</td>
+                            <td>{{request.endDateTime}}</td>
+                            <td>{{request.requestDateTime}}</td>
+                            <td><button class="btn btn-outline-danger" (click)="rejectRequest(request.requestId)">Reject</button></td>
                         </tr>
                         <!-- More rows as needed -->
                     </tbody>
@@ -77,24 +78,24 @@
                 <table class="table mt-3">
                     <thead>
                         <tr>
+                            <th>Request Id</th>
                             <th>Employee</th>
                             <th>Reason</th>
                             <th>From</th>
-                            <th>Slot</th>
                             <th>To</th>
-                            <th>Slot</th>
-                            <th>Status</th>
+                            <th>Requested date</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr data-bs-toggle="modal" data-bs-target="#leaveDetailsModal">
-                            <td>Sadun Perera</td>
-                            <td>Personal</td>
-                            <td>2024-07-12</td>
-                            <td>Morning</td>
-                            <td>2024-07-13</td>
-                            <td>Evening</td>
-                            <td>Rejected</td>
+                        <tr *ngFor="let request of rejectedList" data-bs-toggle="modal" data-bs-target="#leaveDetailsModal">
+                            <td>{{request.requestId}}</td>
+                            <td>{{request.employee.firstName}}</td>
+                            <td>{{request.text}}</td>
+                            <td>{{request.startDateTime}}</td>
+                            <td>{{request.endDateTime}}</td>
+                            <td>{{request.requestDateTime}}</td>
+                            <td><button class="btn btn-outline-success" (click)="aproveRequest(request.requestId)">Approve</button></td>
                         </tr>
                         <!-- More rows as needed -->
                     </tbody>
