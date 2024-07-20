@@ -4,6 +4,7 @@ import com.dinethbakers.hrm.model.EmployeeCreate;
 import com.dinethbakers.hrm.model.EmployeeRead;
 import com.dinethbakers.hrm.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/by-id")
-    public EmployeeCreate getById(@RequestParam String id){
+    public ResponseEntity<EmployeeCreate> getById(@RequestParam String id){
         return employeeService.getById(id);
     }
 }

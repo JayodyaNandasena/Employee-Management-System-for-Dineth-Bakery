@@ -20,9 +20,6 @@ public class AttendanceEntity {
     private LocalTime timeIn;
     private LocalTime timeOut;
 
-//    @Enumerated(EnumType.STRING)
-//    private Status status;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id", referencedColumnName = "employee_id", nullable = false)
     private EmployeeEntity employee;

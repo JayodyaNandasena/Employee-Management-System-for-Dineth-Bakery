@@ -17,6 +17,8 @@ import com.dinethbakers.hrm.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -80,10 +82,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeCreate getById(String id) {
+    public ResponseEntity<EmployeeCreate> getById(String id) {
         Optional<EmployeeEntity> byId = employeeRepository.findById(id);
 
-        if (byId.isPresent()){
+        if (byId.isPresent()) {
             EmployeeCreate employee = mapper.convertValue(byId, EmployeeCreate.class);
             employee.setAccount(
                     mapper.convertValue(
@@ -92,15 +94,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             );
 
             employee.setBranchName(byId.get().getBranch().getName());
+            employee.setJobRoleTitle(byId.get().getJobRole().getTitle());
 
-            employee.setJobRoleTitle(
-                    byId.get().getJobRole().getTitle()
-            );
-
-            return employee;
+            return ResponseEntity.ok(employee);
         }
-        return null;
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
+
 
     private String generateId(){
         String maxId = employeeRepository.findMaxEmployeeId();

@@ -4,23 +4,26 @@ import com.dinethbakers.hrm.entity.AttendanceEntity;
 import com.dinethbakers.hrm.entity.BranchEntity;
 import com.dinethbakers.hrm.entity.EmployeeEntity;
 import com.dinethbakers.hrm.model.Attendance;
+import com.dinethbakers.hrm.model.AttendanceRead;
 import com.dinethbakers.hrm.repository.jparepository.AttendanceRepository;
 import com.dinethbakers.hrm.repository.jparepository.EmployeeRepository;
 import com.dinethbakers.hrm.service.AttendanceService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.time.LocalTime;
+import java.time.Duration;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class AttendanceServiceImpl implements AttendanceService {
     private final AttendanceRepository attendanceRepository;
     private final EmployeeRepository employeeRepository;
+    private final ObjectMapper mapper;
 
     @Override
     public ResponseEntity<Map<String, Object>> markClockIn(Attendance dto) {
@@ -90,6 +93,30 @@ public class AttendanceServiceImpl implements AttendanceService {
         return new ResponseEntity<>(result, HttpStatus.FORBIDDEN);
     }
 
+    @Override
+    public List<AttendanceRead> recordsByEmployee(String employeeId) {
+        List<AttendanceRead> attendanceRecords = new ArrayList<>();
+
+        Optional<EmployeeEntity> employeeById = employeeRepository.findById(employeeId);
+
+        if (employeeById.isEmpty()){
+            return Collections.emptyList();
+        }
+
+        for (AttendanceEntity entity : attendanceRepository.findByEmployeeOrderByDateDesc(employeeById.get())) {
+            AttendanceRead attendanceRead = mapper.convertValue(entity, AttendanceRead.class);
+            attendanceRead.setEmployeeName(
+                    entity.getEmployee().getFirstName() + " " + entity.getEmployee().getLastName()
+            );
+            attendanceRead.setTimeSpent(calculateTimeSpent(
+                    attendanceRead.getTimeIn(),
+                    attendanceRead.getTimeOut()
+            ));
+            attendanceRecords.add(attendanceRead);
+        }
+        return attendanceRecords;
+    }
+
     private Boolean matchLocations(String employeeId,
                                    Double currentLatitude,
                                    Double currentLongitude) {
@@ -120,4 +147,24 @@ public class AttendanceServiceImpl implements AttendanceService {
         return R * c;
     }
 
+    public LocalTime calculateTimeSpent(LocalTime start, LocalTime end) {
+        if (end == null){
+            return null;
+        }
+        // Ensure end is after start
+        if (end.isBefore(start)) {
+            throw new IllegalArgumentException("End time must be after start time.");
+        }
+
+        // Calculate the duration between start and end
+        Duration duration = Duration.between(start, end);
+
+        // Convert duration to hours, minutes, and seconds
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() % 60;
+        long seconds = duration.getSeconds() % 60;
+
+        // Create a LocalTime object representing the duration
+        return LocalTime.of((int) hours, (int) minutes, (int) seconds);
+    }
 }

@@ -36,7 +36,7 @@
                     <tbody>
                         <tr *ngFor="let request of pendingList" data-bs-toggle="modal" data-bs-target="#leaveDetailsModal">
                             <td>{{request.requestId}}</td>
-                            <td>{{request.employee.firstName}}</td>
+                            <td>{{request.employee.firstName}} {{request.employee.lastName}}</td>
                             <td>{{request.text}}</td>
                             <td>{{request.startDateTime}}</td>
                             <td>{{request.endDateTime}}</td>
@@ -63,7 +63,7 @@
                     <tbody>
                         <tr *ngFor="let request of approvedList" data-bs-toggle="modal" data-bs-target="#leaveDetailsModal">
                             <td>{{request.requestId}}</td>
-                            <td>{{request.employee.firstName}}</td>
+                            <td>{{request.employee.firstName}} {{request.employee.lastName}}</td>
                             <td>{{request.text}}</td>
                             <td>{{request.startDateTime}}</td>
                             <td>{{request.endDateTime}}</td>
@@ -90,7 +90,7 @@
                     <tbody>
                         <tr *ngFor="let request of rejectedList" data-bs-toggle="modal" data-bs-target="#leaveDetailsModal">
                             <td>{{request.requestId}}</td>
-                            <td>{{request.employee.firstName}}</td>
+                            <td>{{request.employee.firstName}} {{request.employee.lastName}}</td>
                             <td>{{request.text}}</td>
                             <td>{{request.startDateTime}}</td>
                             <td>{{request.endDateTime}}</td>

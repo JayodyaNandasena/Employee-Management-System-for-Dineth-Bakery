@@ -35,7 +35,7 @@ export class ManageEmployeeComponent implements OnInit {
     account: {
       username: "",
       password: "",
-      isManager: true
+      isManager: false
     }
   };
 
@@ -61,7 +61,7 @@ export class ManageEmployeeComponent implements OnInit {
     },
     shiftType: '',
     shiftPolicies: [
-      { startTime: '', endTime: '', totalHours: ''},
+      { startTime: '', endTime: '', totalHours: '' },
       { startTime: '', endTime: '', totalHours: '' }
     ]
   }
@@ -77,13 +77,25 @@ export class ManageEmployeeComponent implements OnInit {
   }
 
   searchEmployee() {
+    this.employee.account.password = "";
     fetch("http://localhost:8081/employee/by-id?id=" + this.employee.employeeId, {
       method: 'GET',
       headers: { "Content-type": "application/json" }
     })
-      .then(res => res.json())
+      .then(res => {
+        if (!res.ok) {
+          this.toastr.error('Error', 'Employee Not Found', {
+            timeOut: 1000,
+          });
+        }
+        return res.json();
+      })
       .then(data => {
-        if (data) {
+        if (!data || !data.employeeId) {
+          this.toastr.error('Error', 'Employee Not Found', {
+            timeOut: 2000,
+          });
+        } else {
           this.employee.employeeId = data.employeeId;
           this.employee.firstName = data.firstName;
           this.employee.lastName = data.lastName;
@@ -96,12 +108,16 @@ export class ManageEmployeeComponent implements OnInit {
           this.employee.branchName = data.branchName;
           this.employee.jobRoleTitle = data.jobRoleTitle;
           this.employee.account.username = data.account.username;
-        } else {
-          this.toastr.error(data.message, 'Data Loading Failed', {
-            timeOut: 3000,
-          });
+          this.employee.account.isManager = data.account.isManager;
         }
       })
+      .catch(error => {
+        this.toastr.warning('Error', 'Data Loading Failed', {
+          timeOut: 4000,
+        });
+      });
+
+
   }
 
   updateEmployee() {

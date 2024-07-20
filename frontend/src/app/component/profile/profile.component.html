@@ -90,18 +90,15 @@
                 <fieldset class="border p-2 mb-3">
                     <legend class="w-auto px-2">Account Details</legend>
                     <div class="row mb-3">
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="username" class="form-label">Username</label>
                             <input type="text" class="form-control" id="username"
                                 [(ngModel)]="employeeProfile.account.username" disabled />
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="password" class="form-label">New Password</label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="confirmPassword" class="form-label">Confirm New Password</label>
-                            <input type="password" class="form-control" id="confirmPassword">
+                            <input type="text" class="form-control" id="password"
+                                [(ngModel)]="employeeProfile.account.password">
                         </div>
                     </div>
                 </fieldset>

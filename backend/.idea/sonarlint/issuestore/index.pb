@@ -167,3 +167,5 @@ esrc/main/java/com/dinethbakers/hrm/repository/nativerepository/impl/EmployeeNat
 [src/main/java/com/dinethbakers/hrm/repository/nativerepository/AccountNativeRepository.java,f\5\f5a468aaf4ac30dceb40e621ba63d2fc6205eb74
 ”
 dsrc/main/java/com/dinethbakers/hrm/repository/nativerepository/impl/AccountNativeRepositoryImpl.java,3\5\351e7d463be21334ae9f8eeb12f8c5c911d6aca4
+l
+<src/main/java/com/dinethbakers/hrm/model/AttendanceRead.java,2\a\2a3da31c8768e0b902fb7e161b70bb8a5c56811b

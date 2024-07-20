@@ -9,6 +9,7 @@ import { RequestLeavesComponent } from './component/request-leaves/request-leave
 import { RequestOtComponent } from './component/request-ot/request-ot.component';
 import { ManageEmployeeComponent } from './component/manage-employee/manage-employee.component';
 import { SalarySlipComponent } from './component/salary-slip/salary-slip.component';
+import { ManageAttendanceComponent } from './component/manage-attendance/manage-attendance.component';
 
 export const routes: Routes = [
     {
@@ -42,6 +43,10 @@ export const routes: Routes = [
     {
         path:"manageEmployee",
         component: ManageEmployeeComponent
+    },
+    {
+        path:"manageAttendance",
+        component: ManageAttendanceComponent
     },
     {
         path:"salary",

@@ -3,7 +3,7 @@ import { SidebarAdminComponent } from '../sidebar-admin/sidebar-admin.component'
 import { SessionStorageService } from '../../services/session-storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-manage-leaves',
@@ -19,7 +19,8 @@ export class ManageLeavesComponent implements OnInit{
 
   constructor(
     private sessionService: SessionStorageService,
-    private toastr: ToastrService){}
+    private toastr: ToastrService,
+    private datePipe: DatePipe){}
 
   ngOnInit(): void {
     this.loadPendingRequests();
@@ -31,6 +32,10 @@ export class ManageLeavesComponent implements OnInit{
     fetch("http://localhost:8081/timeOff/byStatus?status=PENDING&requestorId="+this.sessionService.getEmployeeId())
       .then(res => res.json())
       .then(data => {
+        data.forEach((element: { startDateTime: string | number | Date | null; endDateTime: string | number | Date | null; }) => {
+          element.startDateTime = this.datePipe.transform(element.startDateTime, 'yyyy-MM-dd HH:mm:ss');
+          element.endDateTime = this.datePipe.transform(element.endDateTime, 'yyyy-MM-dd HH:mm:ss');
+        });
         this.pendingList = data;
       });
   }
@@ -39,6 +44,11 @@ export class ManageLeavesComponent implements OnInit{
     fetch("http://localhost:8081/timeOff/byStatus?status=APPROVED&requestorId="+this.sessionService.getEmployeeId())
       .then(res => res.json())
       .then(data => {
+        data.forEach((element: { startDateTime: string | number | Date | null; endDateTime: string | number | Date | null; }) => {
+          element.startDateTime = this.datePipe.transform(element.startDateTime, 'yyyy-MM-dd HH:mm:ss');
+          element.endDateTime = this.datePipe.transform(element.endDateTime, 'yyyy-MM-dd HH:mm:ss');
+
+        });
         this.approvedList = data;
       });
   }
@@ -47,6 +57,10 @@ export class ManageLeavesComponent implements OnInit{
     fetch("http://localhost:8081/timeOff/byStatus?status=REJECTED&requestorId="+this.sessionService.getEmployeeId())
       .then(res => res.json())
       .then(data => {
+        data.forEach((element: { startDateTime: string | number | Date | null; endDateTime: string | number | Date | null; }) => {
+          element.startDateTime = this.datePipe.transform(element.startDateTime, 'yyyy-MM-dd HH:mm:ss');
+          element.endDateTime = this.datePipe.transform(element.endDateTime, 'yyyy-MM-dd HH:mm:ss');
+        });
         this.rejectedList = data;
       });
   }
@@ -56,7 +70,7 @@ export class ManageLeavesComponent implements OnInit{
       "managerId": this.sessionService.getEmployeeId(),
       "requestId": requestId,
       "status": "APPROVED",
-      "approvedDateTime": "2024-07-19T07:50:29.778Z"
+      "approvedDateTime": new Date().toISOString()
     };
 
     fetch("http://localhost:8081/timeOff", {
@@ -90,13 +104,12 @@ export class ManageLeavesComponent implements OnInit{
 
   rejectRequest(requestId : string){
     console.log(requestId);
-    
 
     const request = {
       "managerId": this.sessionService.getEmployeeId(),
       "requestId": requestId,
       "status": "REJECTED",
-      "approvedDateTime": "2024-07-19T07:50:29.778Z"
+      "approvedDateTime": new Date().toISOString()
     };
 
     fetch("http://localhost:8081/timeOff", {
