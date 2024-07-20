@@ -37,7 +37,10 @@
                         </div>
                         <div class="col-md-4">
                             <label for="gender" class="form-label">Gender</label>
-                            <input type="text" class="form-control" id="gender" [(ngModel)]="employee.gender" />
+                            <select class="form-select"  [(ngModel)]="employee.gender">
+                                <option value="MALE">Male</option>
+                                <option value="FEMALE">Female</option>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label for="birthday" class="form-label">Birthday</label>
@@ -114,7 +117,8 @@
                                 [(ngModel)]="employee.account.password">
                         </div>
                         <div class="form-check form-switch col-md-4">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" [(ngModel)]="employee.account.isManager">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked"
+                                [(ngModel)]="employee.account.isManager">
                             <label class="form-check-label" for="flexSwitchCheckChecked">Managerial Operations</label>
                         </div>
                     </div>
@@ -169,37 +173,226 @@
 </div>
 
 <!-- Add new job Role modal -->
-<div class="modal-dialog modal-dialog-centered">
-    <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Add New Job Role</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Branch Name:</label>
-                        <input type="text" class="form-control" id="recipient-name" [(ngModel)]="newBranch.name" />
+<div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel"><strong>New Job Role</strong></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-dark-subtle">
+                <!-- <form>
+                    <div class="mb-3 row">
+                        <label for="title" class="col-sm-4 col-form-label">Title:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="title" name="title"
+                                [(ngModel)]="newJobRole.title" />
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Branch Address:</label>
-                        <input type="text" class="form-control" id="recipient-name" [(ngModel)]="newBranch.address" />
+                        <strong>Leave Policy</strong>
+                        <div class="row mt-2">
+                            <label for="pto-days" class="col-sm-4 col-form-label">No. of PTO days:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="pto-days" name="ptoDays"
+                                    [(ngModel)]="newJobRole.leavePolicy.noOfPTODays" />
+                            </div>
+                        </div>
                     </div>
                     <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Branch Location:</label>
-                        <input type="num" class="form-control mb-2" placeholder="Latitude"
-                            [(ngModel)]="newBranch.latitude" />
-                        <input type="num" class="form-control" placeholder="Longitude"
-                            [(ngModel)]="newBranch.longitude" />
+                        <strong>Salary Policy</strong>
+                        <div class="row mt-2">
+                            <label for="basic-salary" class="col-sm-4 col-form-label">Monthly Basic Salary:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control mb-2" id="basic-salary" name="basicSalary"
+                                    [(ngModel)]="newJobRole.salaryPolicy.monthlyBasicSalary" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="ot-per-hour" class="col-sm-4 col-form-label">Overtime Salary per Hour:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control mb-2" id="ot-per-hour" name="otPerHour"
+                                    [(ngModel)]="newJobRole.salaryPolicy.overtimeSalaryPerHour" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="epf-percentage" class="col-sm-4 col-form-label">EPF Percentage:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control mb-2" id="epf-percentage" name="epfPercentage" value="8"
+                                    [(ngModel)]="newJobRole.salaryPolicy.epfPercentage" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="etf-percentage" class="col-sm-4 col-form-label">ETF Percentage:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control mb-2" id="etf-percentage" name="etfPercentage" value="3"
+                                    [(ngModel)]="newJobRole.salaryPolicy.etfPercentage" />
+                            </div>
+                        </div>
                     </div>
+                    <div class="mb-3">
+                        <strong>Shift Policies</strong>
+                        <div class="row mt-2">
+                            <label for="shift-type" class="col-sm-4 col-form-label">Shift Type:</label>
+                            <div class="col-sm-8">
+                                <select class="form-control mb-2" id="shift-type" name="shiftType"
+                                    [(ngModel)]="newJobRole.shiftType">
+                                    <option value="FIXED_HOURS">Fixed Hours</option>
+                                    <option value="FLEXIBLE_HOURS">Flexible Hours</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <div class="row">
+                                    <label for="policy-no" class="col-sm-3 col-form-label">Policy No:</label>
+                                    <label for="start-time" class="col-sm-3 col-form-label">Start Time:</label>
+                                    <label for="end-time" class="col-sm-3 col-form-label">End Time:</label>
+                                    <label for="total-hours" class="col-sm-3 col-form-label">Total Hours:</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="col-form-label">Policy 1</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="time" class="form-control mb-2" id="start-time-1" name="policy1StartTime"
+                                            [(ngModel)]="newJobRole.shiftPolicies[0].startTime" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="time" class="form-control mb-2" id="end-time-1" name="policy1EndTime"
+                                            [(ngModel)]="newJobRole.shiftPolicies[0].endTime" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="number" class="form-control mb-2" id="total-hours-1" name="policy1TotalHours"
+                                            [(ngModel)]="newJobRole.shiftPolicies[0].totalHours" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label class="col-form-label">Policy 2</label>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="time" class="form-control mb-2" id="start-time-2" name="policy2StartTime"
+                                            [(ngModel)]="newJobRole.shiftPolicies[1].startTime" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="time" class="form-control mb-2" id="end-time-2" name="policy2EndTime"
+                                            [(ngModel)]="newJobRole.shiftPolicies[1].endTime" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <input type="number" class="form-control mb-2" id="total-hours-2" name="policy2TotalHours"
+                                            [(ngModel)]="newJobRole.shiftPolicies[1].totalHours" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form> -->
+                
+                <form>
+                    <!-- Title Field -->
+                    <div class="mb-3 row">
+                        <label for="title" class="col-sm-4 col-form-label">Title:</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="title" name="title" [(ngModel)]="newJobRole.title" />
+                        </div>
+                    </div>
+                
+                    <!-- Leave Policy -->
+                    <div class="mb-3">
+                        <strong>Leave Policy</strong>
+                        <div class="row mt-2">
+                            <label for="pto-days" class="col-sm-4 col-form-label">No. of PTO days:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control" id="pto-days" name="ptoDays"
+                                    [(ngModel)]="newJobRole.leavePolicy.noOfPTODays" />
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Salary Policy -->
+                    <div class="mb-3">
+                        <strong>Salary Policy</strong>
+                        <div class="row mt-2">
+                            <label for="basic-salary" class="col-sm-4 col-form-label">Monthly Basic Salary:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control mb-2" id="basic-salary" name="basicSalary"
+                                    [(ngModel)]="newJobRole.salaryPolicy.monthlyBasicSalary" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="ot-per-hour" class="col-sm-4 col-form-label">Overtime Salary per Hour:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control mb-2" id="ot-per-hour" name="otPerHour"
+                                    [(ngModel)]="newJobRole.salaryPolicy.overtimeSalaryPerHour" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="epf-percentage" class="col-sm-4 col-form-label">EPF Percentage:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control mb-2" id="epf-percentage" name="epfPercentage"
+                                    [(ngModel)]="newJobRole.salaryPolicy.epfPercentage" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="etf-percentage" class="col-sm-4 col-form-label">ETF Percentage:</label>
+                            <div class="col-sm-8">
+                                <input type="number" class="form-control mb-2" id="etf-percentage" name="etfPercentage"
+                                    [(ngModel)]="newJobRole.salaryPolicy.etfPercentage" />
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Shift Type -->
+                    <div class="mb-3">
+                        <strong>Shift Type</strong>
+                        <div class="row mt-2">
+                            <label for="shift-type" class="col-sm-4 col-form-label">Shift Type:</label>
+                            <div class="col-sm-8">
+                                <select  class="form-select" id="shift-type" name="shiftType"
+                                    [(ngModel)]="newJobRole.shiftType">
+                                    <option value="FIXED_HOURS">Fixed Hours</option>
+                                    <option value="FLEXIBLE_HOURS">Flexible Hours</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Shift Policies -->
+                    <div class="mb-3">
+                        <strong>Shift Policies</strong>
+                        <div *ngFor="let policy of newJobRole.shiftPolicies; let i = index" class="row mt-2">
+                            <div class="col-sm-3">
+                                <label class="col-form-label">Policy {{ i + 1 }}</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="start-time-{{ i }}" class="col-form-label">Start Time:</label>
+                                <input type="time" class="form-control mb-2" [id]="'start-time-' + i" name="startTime{{ i }}"
+                                    [(ngModel)]="policy.startTime" />
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="end-time-{{ i }}" class="col-form-label">End Time:</label>
+                                <input type="time" class="form-control mb-2" [id]="'end-time-' + i" name="endTime{{ i }}"
+                                    [(ngModel)]="policy.endTime" />
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="total-hours-{{ i }}" class="col-form-label">Total Hours:</label>
+                                <input type="time" class="form-control mb-2" [id]="'total-hours-' + i" name="totalHours{{ i }}"
+                                    [(ngModel)]="policy.totalHours" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-success" (click)="addNewBranch()">Add Branch</button>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" (click)="addNewJobRole()">Add Job Role</button>
             </div>
         </div>
     </div>
 </div>
+
+
+

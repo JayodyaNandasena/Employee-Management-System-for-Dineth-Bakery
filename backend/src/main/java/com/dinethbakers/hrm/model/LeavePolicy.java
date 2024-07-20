@@ -4,6 +4,5 @@ import lombok.Data;
 
 @Data
 public class LeavePolicy {
-    private Integer policyId;
     private Integer noOfPTODays;
 }

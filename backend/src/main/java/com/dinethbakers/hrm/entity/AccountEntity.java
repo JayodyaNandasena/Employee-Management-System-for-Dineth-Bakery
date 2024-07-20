@@ -2,6 +2,7 @@ package com.dinethbakers.hrm.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 @Entity
 @Table(name = "account")
@@ -15,5 +16,6 @@ public class AccountEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
+    @ToString.Exclude
     private EmployeeEntity employee;
 }

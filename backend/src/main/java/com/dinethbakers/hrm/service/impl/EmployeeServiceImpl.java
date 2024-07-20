@@ -11,6 +11,7 @@ import com.dinethbakers.hrm.repository.jparepository.AccountRepository;
 import com.dinethbakers.hrm.repository.jparepository.BranchRepository;
 import com.dinethbakers.hrm.repository.jparepository.EmployeeRepository;
 import com.dinethbakers.hrm.repository.jparepository.JobRoleRepository;
+import com.dinethbakers.hrm.repository.nativerepository.AccountNativeRepository;
 import com.dinethbakers.hrm.repository.nativerepository.EmployeeNativeRepository;
 import com.dinethbakers.hrm.service.EmployeeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +27,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeNativeRepository employeeNativeRepository;
     private final AccountRepository accountRepository;
+    private final AccountNativeRepository accountNativeRepository;
     private final BranchRepository branchRepository;
     private final JobRoleRepository jobRoleRepository;
     private final ObjectMapper mapper;
@@ -49,16 +51,23 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeCreate update(EmployeeCreate dto) {
         EmployeeEntity entity = mapper.convertValue(dto, EmployeeEntity.class);
+        entity.setBranch(getBranchByName(dto.getBranchName()));
+        entity.setJobRole(getJobRoleByTitle(dto.getJobRoleTitle()));
 
+        //update employee table
         EmployeeEntity editedEntity = employeeNativeRepository.editEmployee(entity);
 
         EmployeeCreate savedEmployee = mapper.convertValue(editedEntity, EmployeeCreate.class);
 
-        persistAccount(savedEmployee.getEmployeeId(), dto.getAccount());
+        //update account table
+
+        AccountEntity accountEntity = mapper.convertValue(dto.getAccount(), AccountEntity.class);
+        accountEntity.setEmployee(entity);
+        accountEntity.setPassword(BCrypt.hashpw(dto.getAccount().getPassword(), BCrypt.gensalt()));
 
         savedEmployee.setAccount(
                 mapper.convertValue(
-                        accountRepository.findByEmployeeEmployeeId(savedEmployee.getEmployeeId()),
+                        accountNativeRepository.editAccount(accountEntity),
                         AccountCreate.class)
         );
 
@@ -92,7 +101,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         return null;
     }
-
 
     private String generateId(){
         String maxId = employeeRepository.findMaxEmployeeId();

@@ -1,6 +1,7 @@
 package com.dinethbakers.hrm.service.impl;
 
 import com.dinethbakers.hrm.entity.EmployeeEntity;
+import com.dinethbakers.hrm.entity.JobRoleEntity;
 import com.dinethbakers.hrm.entity.SalaryPolicyEntity;
 import com.dinethbakers.hrm.model.Salary;
 import com.dinethbakers.hrm.repository.jparepository.EmployeeRepository;
@@ -22,31 +23,38 @@ public class SalaryServiceImpl implements SalaryService {
     public Salary getSalarySlip(String employeeId) {
         Optional<EmployeeEntity> byId = employeeRepository.findById(employeeId);
 
-        if (byId.isEmpty()){
+        if (byId.isEmpty()) {
             return null;
         }
-        SalaryPolicyEntity salaryPolicy = byId.get().getJobRole().getSalaryPolicy();
 
+        EmployeeEntity employee = byId.get();
+        JobRoleEntity jobRole = employee.getJobRole();
+
+        if (jobRole == null || jobRole.getSalaryPolicy() == null) {
+            return null;
+        }
+
+        SalaryPolicyEntity salaryPolicy = jobRole.getSalaryPolicy();
         BigDecimal basicSalary = salaryPolicy.getMonthlyBasicSalary();
         BigDecimal epfPercentage = salaryPolicy.getEpfPercentage();
         BigDecimal etfPercentage = salaryPolicy.getEtfPercentage();
 
-        BigDecimal epfSalary = basicSalary.multiply(epfPercentage).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-        BigDecimal etfSalary = basicSalary.multiply(etfPercentage).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+        BigDecimal epfSalary = calculatePercentage(basicSalary, epfPercentage);
+        BigDecimal etfSalary = calculatePercentage(basicSalary, etfPercentage);
         BigDecimal totalDeductions = epfSalary.add(etfSalary);
 
         BigDecimal otPerHour = salaryPolicy.getOvertimeSalaryPerHour();
+        BigDecimal otPayment = BigDecimal.ZERO;
+        BigDecimal otHours = BigDecimal.ZERO;
 
-        BigDecimal otPayment = overTimeRepository.findTotalOvertimePaymentByEmployeeId(employeeId);
-        if (otPayment == null) {
-            otPayment = BigDecimal.ZERO;
+        if (otPerHour.compareTo(BigDecimal.ZERO) != 0) {
+            otPayment = overTimeRepository.findTotalOvertimePaymentByEmployeeId(employeeId);
+            if (otPayment != null) {
+                otHours = otPayment.divide(otPerHour, 2, RoundingMode.HALF_UP);
+            }
         }
 
-        // Divide the payment amount by the overtime salary per hour to get the OT hours
-        BigDecimal otHours = otPayment.divide(otPerHour, 2, RoundingMode.HALF_UP);
-
         BigDecimal grossSalary = basicSalary.add(otPayment);
-
         BigDecimal netSalary = grossSalary.subtract(totalDeductions);
 
         return new Salary(
@@ -63,4 +71,9 @@ public class SalaryServiceImpl implements SalaryService {
                 netSalary
         );
     }
+
+    private BigDecimal calculatePercentage(BigDecimal base, BigDecimal percentage) {
+        return base.multiply(percentage).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+    }
+
 }

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarNonmanagerComponent } from '../sidebar-nonmanager/sidebar-nonmanager.component';
-import { HttpClient, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-dashboard-nonmanager',
   standalone: true,
-  imports: [SidebarNonmanagerComponent,HttpClientModule],
-  providers: [HttpClient],
+  imports: [SidebarNonmanagerComponent],
+  providers: [],
   templateUrl: './dashboard-nonmanager.component.html',
   styleUrl: './dashboard-nonmanager.component.css'
 })
@@ -27,7 +26,6 @@ export class DashboardNonmanagerComponent implements OnInit {
   }
 
   constructor(
-    private httpClient:HttpClient,
     private toastr: ToastrService){}
 
   ngOnInit() {
@@ -80,14 +78,6 @@ export class DashboardNonmanagerComponent implements OnInit {
   }
 
   clockIn() {
-    // this.httpClient.post(
-    //   "http://localhost:8081/attendance/clockIn",
-    //   this.AttendanceRequest)
-    //   .subscribe(data => {
-    //     console.log(data);
-    //   }).unsubscribe();
-
-
     this.getCurrentLocation()
       .then(() => {
         this.AttendanceRequest.date = this.date;

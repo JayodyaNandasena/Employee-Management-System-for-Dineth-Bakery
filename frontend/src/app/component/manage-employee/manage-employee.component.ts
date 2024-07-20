@@ -5,7 +5,7 @@ import { SessionStorageService } from '../../services/session-storage.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-import { Branch, EmployeeCreate, EmployeeRead } from '../../models/models';
+import { Branch, EmployeeCreate, EmployeeRead, JobRole } from '../../models/models';
 
 @Component({
   selector: 'app-manage-employee',
@@ -44,6 +44,26 @@ export class ManageEmployeeComponent implements OnInit {
     latitude: 0.0,
     longitude: 0.0,
     address: ""
+  }
+
+  public newJobRole: JobRole = {
+    jobRoleId: '',
+    title: '',
+    leavePolicy: {
+      policyId: '',
+      noOfPTODays: 0
+    },
+    salaryPolicy: {
+      monthlyBasicSalary: 0,
+      overtimeSalaryPerHour: 0,
+      epfPercentage: 8,
+      etfPercentage: 3
+    },
+    shiftType: '',
+    shiftPolicies: [
+      { startTime: '', endTime: '', totalHours: ''},
+      { startTime: '', endTime: '', totalHours: '' }
+    ]
   }
 
   constructor(
@@ -164,17 +184,54 @@ export class ManageEmployeeComponent implements OnInit {
         this.toastr.success('Success', 'Branch Added Successfully!', {
           timeOut: 3000,
         });
+        this.loadBranchNames();
       })
       .catch(error => {
         this.toastr.error('System error', 'Error');
       });
   }
 
-  openBranchModal() {
-    var branchModal = document.getElementById('staticBackdrop');
+  addNewJobRole() {
+    this.newJobRole.shiftPolicies = this.newJobRole.shiftPolicies.map(policy => ({
+      ...policy,
+      startTime: this.formatTime(policy.startTime),
+      endTime: this.formatTime(policy.endTime),
+      totalHours: this.formatTime(policy.totalHours)
+    }));
 
-    if (branchModal != null) {
-      branchModal.style.display = 'block';
+    fetch("http://localhost:8081/jobrole", {
+      method: 'POST',
+      body: JSON.stringify(this.newJobRole),
+      headers: { "Content-type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(data => {
+        this.toastr.success('Success', 'Job Role Added Successfully!', {
+          timeOut: 3000,
+        });
+        this.loadJobTitles();
+      })
+      .catch(error => {
+        this.toastr.error('System error', 'Error');
+      });
+  }
+
+  formatTime(time: string): string {
+    if (!time) {
+      return '00:00:00'; // Default value for missing time
+    }
+
+    const timeParts = time.split(':');
+
+    if (timeParts.length === 1) {
+      return `${timeParts[0]}:00:00`;
+    } else if (timeParts.length === 2) {
+      return `${timeParts[0]}:${timeParts[1]}:00`;
+    } else if (timeParts.length === 3) {
+      return `${timeParts[0]}:${timeParts[1]}:${timeParts[2]}`;
+    } else {
+      console.error('Invalid time format:', time);
+      return '00:00:00';
     }
   }
 

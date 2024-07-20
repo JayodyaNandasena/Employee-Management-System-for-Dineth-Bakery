@@ -13,28 +13,27 @@ public class EmployeeNativeRepositoryImpl implements EmployeeNativeRepository {
     private final JdbcTemplate jdbcTemplate;
     private final EmployeeRepository jpaRepository;
     @Override
-    public EmployeeEntity editEmployee(EmployeeEntity updatedEmployee) {
+    public EmployeeEntity editEmployee(EmployeeEntity employee) {
         String sql = "UPDATE employee SET first_name = ?, " +
                 "last_name = ?, nic = ?, dob = ?, profile_picture = ?, " +
                 "hired_date = ?, address = ?, email = ?, gender = ?, " +
                 "branch_id = ?, job_role_id = ? WHERE employee_id = ?";
-
         int rowsAffected = jdbcTemplate.update(sql,
-                updatedEmployee.getFirstName(),
-                updatedEmployee.getLastName(),
-                updatedEmployee.getNic(),
-                updatedEmployee.getDob(),
-                updatedEmployee.getProfilePicture(),
-                updatedEmployee.getHiredDate(),
-                updatedEmployee.getAddress(),
-                updatedEmployee.getEmail(),
-                updatedEmployee.getGender(),
-                updatedEmployee.getBranch(),
-                updatedEmployee.getJobRole(),
-                updatedEmployee.getEmployeeId());
+                employee.getFirstName(),
+                employee.getLastName(),
+                employee.getNic(),
+                employee.getDob(),
+                employee.getProfilePicture(),
+                employee.getHiredDate(),
+                employee.getAddress(),
+                employee.getEmail(),
+                employee.getGender().name(),
+                employee.getBranch().getBranchId(),
+                employee.getJobRole().getJobRoleId(),
+                employee.getEmployeeId());
 
         if (rowsAffected > 0) {
-            return jpaRepository.findById(updatedEmployee.getEmployeeId()).get();
+            return jpaRepository.findById(employee.getEmployeeId()).get();
         } else {
             return null;
         }

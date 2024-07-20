@@ -16,8 +16,8 @@
                                     <div class="row g-0 w-100">
                                         <div class="col-6">
                                             <div class="p-3 m-1">
-                                                <h4>Welcome Back, Admin</h4>
-                                                <p class="mb-0">Manager Dashboard,</p>
+                                                <h4>Welcome Back, {{ employeeName }}</h4>
+                                                <p class="mb-0">Access and Manage Your Employee Operations</p>
                                             </div>
                                         </div>
                                         <div class="col-6 align-self-end text-end">
@@ -29,22 +29,16 @@
                         </div>
                         <div class="col-12 col-md-6 d-flex">
                             <div class="card flex-fill border-0">
-                                <div class="card-body py-4">
+                                <div class="card-body py-4 bg-dark-subtle">
                                     <div class="d-flex align-items-start">
                                         <div class="flex-grow-1">
-                                            <h4 class="mb-2">
-                                                $ 78.00
-                                            </h4>
-                                            <p class="mb-2">
-                                                Total Earnings
-                                            </p>
-                                            <div class="mb-0">
-                                                <span class="badge text-success me-2">
-                                                    +9.0%
-                                                </span>
-                                                <span class="text-muted">
-                                                    Since Last Month
-                                                </span>
+                                            <div class="col-md-12 text-center">
+                                                <h4 class="mt-1 mb-3">Quickly mark your Attendance</h4>
+                                                <div id="currentDateTime" class="mb-3 text-dark">{{ currentDateTime }}</div>
+                                                <button class="btn btn-lg btn-primary m-3" id="signInBtn"
+                                                    (click)="clockIn()">Clock In</button>
+                                                <button class="btn btn-lg btn-danger m-3" id="signOutBtn"
+                                                    (click)="clockOut()">Clock Out</button>
                                             </div>
                                         </div>
                                     </div>

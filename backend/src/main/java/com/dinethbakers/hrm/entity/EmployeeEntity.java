@@ -29,7 +29,7 @@ public class EmployeeEntity {
     private Gender gender;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "employee")
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     private AccountEntity account;
 
     @ManyToOne(cascade = CascadeType.ALL)
