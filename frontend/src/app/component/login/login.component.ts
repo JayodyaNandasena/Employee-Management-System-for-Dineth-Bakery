@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SessionStorageService } from '../../services/session-storage.service';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login.component.css'
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
   public loginRequest:LoginRequest = {
     username: "",
@@ -24,6 +24,10 @@ export class LoginComponent {
     private sessionStorageService: SessionStorageService,
     private router: Router,
     private toastr: ToastrService) {}
+
+  ngOnInit(): void {
+    this.sessionStorageService.clearSession();
+  }
   
   login(){
     fetch("http://localhost:8081/login",{

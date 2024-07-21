@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { SidebarNonmanagerComponent } from '../sidebar-nonmanager/sidebar-nonmanager.component';
 import { Salary } from '../../models/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-salary-slip',
@@ -32,9 +33,13 @@ export class SalarySlipComponent implements OnInit{
 
   constructor(
     private sessionService:SessionStorageService,
+    private router: Router,
     private toastr: ToastrService){}
 
   ngOnInit(): void {
+    if (this.sessionService.getEmployeeId() === "") {
+      this.router.navigateByUrl('');
+    }
     this.isManager = this.sessionService.getIsManager();
     this.loadSalarySlip();
   }

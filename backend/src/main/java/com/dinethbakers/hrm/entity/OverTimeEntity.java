@@ -4,6 +4,7 @@ import com.dinethbakers.hrm.util.Status;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -14,8 +15,9 @@ public class OverTimeEntity {
     @Id
     @Column(name = "request_id")
     private String requestId;
-    @Column(nullable = false)
-    private LocalDateTime date;
+    private LocalDate date;
+    @Column(name = "request_date", nullable = false)
+    private LocalDateTime requestDate;
     @Column(nullable = false)
     private LocalTime startTime;
     @Column(nullable = false)

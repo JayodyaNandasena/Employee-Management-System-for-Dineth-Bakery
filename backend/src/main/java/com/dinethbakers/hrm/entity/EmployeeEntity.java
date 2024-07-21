@@ -52,7 +52,7 @@ public class EmployeeEntity {
     List<TimeOffEntity> timeOffList;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "employees")
+    @OneToMany(mappedBy = "employees", cascade = CascadeType.ALL)
     private List<MessageEntity> messages;
 
 }

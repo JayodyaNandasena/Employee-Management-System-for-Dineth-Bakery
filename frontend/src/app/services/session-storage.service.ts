@@ -31,7 +31,6 @@ export class SessionStorageService {
   }
 
   clearSession(): void {
-    sessionStorage.removeItem('employeeId');
-    sessionStorage.removeItem('isManager');
+    sessionStorage.setItem('employeeId', "");
   }
 }

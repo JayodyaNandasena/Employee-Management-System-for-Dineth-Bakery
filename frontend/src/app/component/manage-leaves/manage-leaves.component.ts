@@ -4,6 +4,7 @@ import { SessionStorageService } from '../../services/session-storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-leaves',
@@ -20,9 +21,13 @@ export class ManageLeavesComponent implements OnInit{
   constructor(
     private sessionService: SessionStorageService,
     private toastr: ToastrService,
-    private datePipe: DatePipe){}
+    private datePipe: DatePipe,
+    private router: Router){}
 
   ngOnInit(): void {
+    if (sessionStorage['getEmployeeId']() === "") {
+      this.router.navigateByUrl('');
+    }
     this.loadPendingRequests();
     this.loadApprovedRequests();
     this.loadRejectedRequests();

@@ -20,8 +20,8 @@ public class MessageEntity {
     private String text;
 
     @ManyToOne
-    @JoinColumn(name = "sender_id", referencedColumnName = "employee_id")
-    private ManagementEntity sender;
+    @JoinColumn(name = "receiver_id", referencedColumnName = "employee_id")
+    private EmployeeEntity receiver;
 
     @ManyToMany
     @JoinTable(name = "employee_message",

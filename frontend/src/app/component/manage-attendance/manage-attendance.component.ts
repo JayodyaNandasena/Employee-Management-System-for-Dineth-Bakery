@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { EmployeeRead } from '../../models/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-attendance',
@@ -21,9 +22,13 @@ export class ManageAttendanceComponent implements OnInit{
 
   constructor(
     private sessionService:SessionStorageService,
-    private toastr: ToastrService){}
+    private toastr: ToastrService,
+    private router: Router){}
 
   ngOnInit(): void {
+    if (sessionStorage['getEmployeeId']() === "") {
+      this.router.navigateByUrl('');
+    }
     this.isManager = this.sessionService.getIsManager();
     this.loadUserRecords();
   }

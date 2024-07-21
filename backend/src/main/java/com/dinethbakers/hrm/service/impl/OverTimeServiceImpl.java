@@ -46,6 +46,7 @@ public class OverTimeServiceImpl implements OverTimeService {
 
         overTimeEntity.setRequestId(generateId());
         overTimeEntity.setEmployee(employeeById.get());
+        overTimeEntity.setRequestDate(dto.getRequestDate());
         overTimeEntity.setText(dto.getText());
         overTimeEntity.setDate(dto.getDate());
         overTimeEntity.setStartTime(dto.getStartTime());

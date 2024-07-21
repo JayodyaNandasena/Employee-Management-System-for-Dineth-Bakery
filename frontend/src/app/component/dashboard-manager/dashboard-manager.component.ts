@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SidebarAdminComponent } from '../sidebar-admin/sidebar-admin.component';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard-nonmanager',
@@ -26,9 +27,14 @@ export class DashboardManagerComponent implements OnInit {
   }
 
   constructor(
-    private toastr: ToastrService){}
+    private toastr: ToastrService,
+    private router: Router){}
 
   ngOnInit() {
+    if (sessionStorage['getEmployeeId']() === "") {
+      this.router.navigateByUrl('');
+    }
+
     this.employeeName = sessionStorage.getItem('employeeName');
     this.updateDateTime();
     setInterval(() => this.updateDateTime(), 1000);

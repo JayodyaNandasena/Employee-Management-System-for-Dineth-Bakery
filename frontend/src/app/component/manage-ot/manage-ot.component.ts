@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { CommonModule, DatePipe } from '@angular/common';
 import { SidebarNonmanagerComponent } from '../sidebar-nonmanager/sidebar-nonmanager.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-ot',
@@ -22,9 +23,13 @@ export class ManageOtComponent implements OnInit {
   constructor(
     private sessionService: SessionStorageService,
     private toastr: ToastrService,
-    private datePipe: DatePipe){}
+    private datePipe: DatePipe,
+    private router: Router){}
 
   ngOnInit(): void {
+    if (sessionStorage['getEmployeeId']() === "") {
+      this.router.navigateByUrl('');
+    }
     this.isManager = this.sessionService.getIsManager();
     this.loadPendingRequests();
     this.loadApprovedRequests();
