@@ -31,10 +31,6 @@ export class DashboardNonmanagerComponent implements OnInit {
     private router: Router){}
 
   ngOnInit() {
-    if (sessionStorage['getEmployeeId']() === "") {
-      this.router.navigateByUrl('');
-    }
-    
     this.employeeName = sessionStorage.getItem('employeeName');
     this.updateDateTime();
     setInterval(() => this.updateDateTime(), 1000);

@@ -27,9 +27,6 @@ export class ManageOtComponent implements OnInit {
     private router: Router){}
 
   ngOnInit(): void {
-    if (sessionStorage['getEmployeeId']() === "") {
-      this.router.navigateByUrl('');
-    }
     this.isManager = this.sessionService.getIsManager();
     this.loadPendingRequests();
     this.loadApprovedRequests();
@@ -40,9 +37,6 @@ export class ManageOtComponent implements OnInit {
     fetch("http://localhost:8081/overtime/byStatus?status=PENDING&requestorId="+this.sessionService.getEmployeeId())
       .then(res => res.json())
       .then(data => {
-        data.forEach((element: { date: string | number | Date | null;}) => {
-          element.date = this.datePipe.transform(element.date, 'yyyy-MM-dd HH:mm:ss');
-        });
         this.pendingList = data;
       });
   }
@@ -51,9 +45,6 @@ export class ManageOtComponent implements OnInit {
     fetch("http://localhost:8081/overtime/byStatus?status=APPROVED&requestorId="+this.sessionService.getEmployeeId())
       .then(res => res.json())
       .then(data => {
-        data.forEach((element: { date: string | number | Date | null;}) => {
-          element.date = this.datePipe.transform(element.date, 'yyyy-MM-dd HH:mm:ss');
-        });
         this.approvedList = data;
       });
   }
@@ -62,9 +53,6 @@ export class ManageOtComponent implements OnInit {
     fetch("http://localhost:8081/overtime/byStatus?status=REJECTED&requestorId="+this.sessionService.getEmployeeId())
       .then(res => res.json())
       .then(data => {
-        data.forEach((element: { date: string | number | Date | null;}) => {
-          element.date = this.datePipe.transform(element.date, 'yyyy-MM-dd HH:mm:ss');
-        });
         this.rejectedList = data;
       });
   }

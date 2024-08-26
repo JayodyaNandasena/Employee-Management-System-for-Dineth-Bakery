@@ -10,15 +10,15 @@
                     <h4>Request Leaves</h4>
                 </div>
                 <div class="row">
-                    <form>
+                    <form [formGroup] = "leaveForm">
                         <div class="mb-3">
                             <label for="fromSlot" class="form-label">From</label>
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="date" class="form-control" id="fromDate" name="fromDate" [(ngModel)]="startDate" required>
+                                    <input type="date" class="form-control" id="fromDate" name="fromDate" formControlName="startDate" required>
                                 </div>
                                 <div class="col-6">
-                                    <input type="time" class="form-control" id="fromTime" name="fromTime" [(ngModel)]="startTime" required>
+                                    <input type="time" class="form-control" id="fromTime" name="fromTime" formControlName="startTime" required>
                                 </div>
                             </div>
                         </div>
@@ -26,16 +26,16 @@
                             <label for="fromSlot" class="form-label">To</label>
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="date" class="form-control" id="fromDate" name="fromDate" [(ngModel)]="endDate" required>
+                                    <input type="date" class="form-control" id="fromDate" name="fromDate" formControlName="endDate" required>
                                 </div>
                                 <div class="col-6">
-                                    <input type="time" class="form-control" id="fromTime" name="fromTime" [(ngModel)]="endTime" required>
+                                    <input type="time" class="form-control" id="fromTime" name="fromTime" formControlName="endTime" required>
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="reason" class="form-label">Reason</label>
-                            <textarea id="reason" class="form-control" rows="3" [(ngModel)] = "request.text"></textarea>
+                            <textarea id="reason" class="form-control" rows="3" formControlName = "text"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary" (click)="submitRequest()">Submit</button>
                         <button type="reset" class="btn btn-secondary mx-4" (click)="discardRequest()">Discard</button>

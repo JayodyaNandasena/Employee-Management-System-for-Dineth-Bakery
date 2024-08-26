@@ -25,9 +25,6 @@ export class ManageLeavesComponent implements OnInit{
     private router: Router){}
 
   ngOnInit(): void {
-    if (sessionStorage['getEmployeeId']() === "") {
-      this.router.navigateByUrl('');
-    }
     this.loadPendingRequests();
     this.loadApprovedRequests();
     this.loadRejectedRequests();

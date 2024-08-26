@@ -3,6 +3,7 @@ package com.dinethbakers.hrm.model;
 import com.dinethbakers.hrm.util.Status;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -10,7 +11,7 @@ import java.time.LocalTime;
 public class OverTimeRequestRead {
     private String requestId;
     private EmployeeCreate employee;
-    private LocalDateTime date;
+    private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
     private String text;

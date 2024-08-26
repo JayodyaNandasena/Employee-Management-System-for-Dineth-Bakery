@@ -57,12 +57,6 @@
                             <input type="text" class="form-control" id="address" [(ngModel)]="employee.address" />
                         </div>
                     </div>
-                    <!-- <div class="row mb-3">
-                            <div class="col-md-6">
-                                <label for="contact" class="form-label">Contact Details</label>
-                                <input type="text" class="form-control" id="contact">
-                            </div>
-                        </div> -->
                 </fieldset>
 
                 <!-- Job Details -->
@@ -94,12 +88,6 @@
                             <input type="date" class="form-control" id="hiredDate" [(ngModel)]="employee.hiredDate" />
                         </div>
                     </div>
-                    <!-- <div class="row mb-3">
-                            <div class="col-md-4">
-                                <label for="managerialLevel" class="form-label">Managerial Level</label>
-                                <input type="text" class="form-control" id="managerialLevel">
-                            </div>
-                        </div> -->
                 </fieldset>
 
                 <!-- Account Details -->
@@ -127,7 +115,7 @@
                 <!-- Buttons -->
                 <div class="d-flex justify-content-end">
                     <button type="button" class="btn btn-secondary me-2" (click)="clear()">Cancel</button>
-                    <button type="button" class="btn btn-danger me-2" (click)="updateEmployee()">Delete</button>
+                    <!-- <button type="button" class="btn btn-danger me-2" (click)="updateEmployee()">Delete</button> -->
                     <button type="button" class="btn btn-primary me-2" (click)="updateEmployee()">Update</button>
                     <button type="button" class="btn btn-success me-2" (click)="addEmployee()">Add</button>
                 </div>
@@ -172,7 +160,7 @@
     </div>
 </div>
 
-<!-- Add new job Role modal -->
+
 <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -244,7 +232,7 @@
                             <label for="shift-type" class="col-sm-4 col-form-label">Shift Type:</label>
                             <div class="col-sm-8">
                                 <select class="form-select" id="shift-type" name="shiftType"
-                                    [(ngModel)]="newJobRole.shiftType">
+                                    [(ngModel)]="newJobRole.shiftType" (change)="onShiftTypeChange($event)">
                                     <option value="FIXED_HOURS">Fixed Hours</option>
                                     <option value="FLEXIBLE_HOURS">Flexible Hours</option>
                                 </select>
@@ -259,17 +247,17 @@
                             <div class="col-sm-3">
                                 <label class="col-form-label">Policy {{ i + 1 }}</label>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3" *ngIf="newJobRole.shiftType === 'FIXED_HOURS'">
                                 <label for="start-time-{{ i }}" class="col-form-label">Start Time:</label>
                                 <input type="time" class="form-control mb-2" [id]="'start-time-' + i"
                                     name="startTime{{ i }}" [(ngModel)]="policy.startTime" />
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3" *ngIf="newJobRole.shiftType === 'FIXED_HOURS'">
                                 <label for="end-time-{{ i }}" class="col-form-label">End Time:</label>
                                 <input type="time" class="form-control mb-2" [id]="'end-time-' + i"
                                     name="endTime{{ i }}" [(ngModel)]="policy.endTime" />
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-3" *ngIf="newJobRole.shiftType === 'FLEXIBLE_HOURS'">
                                 <label for="total-hours-{{ i }}" class="col-form-label">Total Hours:</label>
                                 <input type="time" class="form-control mb-2" [id]="'total-hours-' + i"
                                     name="totalHours{{ i }}" [(ngModel)]="policy.totalHours" />

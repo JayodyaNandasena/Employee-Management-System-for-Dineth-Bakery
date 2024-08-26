@@ -5,7 +5,7 @@ import { SessionStorageService } from '../../services/session-storage.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-import { Branch, EmployeeCreate, EmployeeRead, JobRole } from '../../models/models';
+import { Branch, EmployeeRead, JobRole } from '../../models/models';
 import { Router } from '@angular/router';
 
 @Component({
@@ -73,9 +73,6 @@ export class ManageEmployeeComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit(): void {
-    if (sessionStorage['getEmployeeId']() === "") {
-      this.router.navigateByUrl('');
-    }
     this.isManager = this.sessionService.getIsManager();
     this.loadBranchNames();
     this.loadJobTitles();
@@ -200,7 +197,15 @@ export class ManageEmployeeComponent implements OnInit {
       body: JSON.stringify(this.newBranch),
       headers: { "Content-type": "application/json" }
     })
-      .then(res => res.json())
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return response.text().then(text => {
+          this.toastr.error('Duplicate Branch Name', 'Error');
+        });
+      }
+    })
       .then(data => {
         this.toastr.success('Success', 'Branch Added Successfully!', {
           timeOut: 3000,
@@ -225,7 +230,15 @@ export class ManageEmployeeComponent implements OnInit {
       body: JSON.stringify(this.newJobRole),
       headers: { "Content-type": "application/json" }
     })
-      .then(res => res.json())
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          return response.text().then(text => {
+            this.toastr.error('Duplicate Job Role Title', 'Error');
+          });
+        }
+      })
       .then(data => {
         this.toastr.success('Success', 'Job Role Added Successfully!', {
           timeOut: 3000,
@@ -233,8 +246,13 @@ export class ManageEmployeeComponent implements OnInit {
         this.loadJobTitles();
       })
       .catch(error => {
-        this.toastr.error('System error', 'Error');
+        this.toastr.error('System error', `Error: ${error.message}`);
       });
+    
+  }
+
+  onShiftTypeChange(event: any) {
+    this.newJobRole.shiftType = event.target.value;
   }
 
   formatTime(time: string): string {

@@ -31,10 +31,6 @@ export class DashboardManagerComponent implements OnInit {
     private router: Router){}
 
   ngOnInit() {
-    if (sessionStorage['getEmployeeId']() === "") {
-      this.router.navigateByUrl('');
-    }
-
     this.employeeName = sessionStorage.getItem('employeeName');
     this.updateDateTime();
     setInterval(() => this.updateDateTime(), 1000);
@@ -110,12 +106,6 @@ export class DashboardManagerComponent implements OnInit {
       });
   }
   clockOut() {
-    // this.httpClient.post(
-    //   "http://localhost:8081/attendance/clockIn",
-    //   this.AttendanceRequest)
-    //   .subscribe(data => {
-    //     console.log(data);
-    //   }).unsubscribe();
 
 
     this.getCurrentLocation()

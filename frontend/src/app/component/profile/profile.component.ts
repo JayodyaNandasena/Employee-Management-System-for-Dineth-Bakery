@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { EmployeeRead } from '../../models/models';
 import { Router } from '@angular/router';
+import { jsDocComment } from '@angular/compiler';
 
 @Component({
   selector: 'app-profile',
@@ -44,10 +45,6 @@ export class ProfileComponent implements OnInit {
     private router: Router){}
 
   ngOnInit(): void {
-    if (sessionStorage['getEmployeeId']() === "") {
-      this.router.navigateByUrl('');
-    }
-
     this.isManager = this.sessionService.getIsManager();
     this.loadProfile();
   }
@@ -72,7 +69,6 @@ export class ProfileComponent implements OnInit {
         this.employeeProfile.branchName=data.branchName;
         this.employeeProfile.jobRoleTitle=data.jobRoleTitle;
         this.employeeProfile.account.username=data.account.username;
-
       }else{
         this.toastr.error(data.message, 'Data Loading Failed',{
           timeOut: 3000,
@@ -83,6 +79,9 @@ export class ProfileComponent implements OnInit {
 
   updateProfile(){
     console.log(this.employeeProfile);
+
+    this.sessionService.setEmployeeName(
+      this.employeeProfile.firstName + " " + this.employeeProfile.lastName);
 
     fetch("http://localhost:8081/employee",{
       method:'PUT',

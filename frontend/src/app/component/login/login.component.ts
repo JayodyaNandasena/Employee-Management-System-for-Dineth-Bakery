@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './login.component.css'
 })
 
-export class LoginComponent implements OnInit{
+export class LoginComponent{
 
   public loginRequest:LoginRequest = {
     username: "",
@@ -25,9 +25,6 @@ export class LoginComponent implements OnInit{
     private router: Router,
     private toastr: ToastrService) {}
 
-  ngOnInit(): void {
-    this.sessionStorageService.clearSession();
-  }
   
   login(){
     fetch("http://localhost:8081/login",{

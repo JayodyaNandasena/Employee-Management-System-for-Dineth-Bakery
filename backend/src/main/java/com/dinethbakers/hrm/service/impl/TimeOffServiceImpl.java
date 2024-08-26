@@ -1,12 +1,16 @@
 package com.dinethbakers.hrm.service.impl;
 
 import com.dinethbakers.hrm.entity.EmployeeEntity;
+import com.dinethbakers.hrm.entity.MessageEntity;
+import com.dinethbakers.hrm.entity.OverTimeEntity;
 import com.dinethbakers.hrm.entity.TimeOffEntity;
+import com.dinethbakers.hrm.model.OverTimeApproval;
 import com.dinethbakers.hrm.model.TimeOffApproval;
 import com.dinethbakers.hrm.model.TimeOffRequest;
 import com.dinethbakers.hrm.model.TimeOffRequestRead;
 import com.dinethbakers.hrm.repository.jparepository.BranchRepository;
 import com.dinethbakers.hrm.repository.jparepository.EmployeeRepository;
+import com.dinethbakers.hrm.repository.jparepository.MessageRepository;
 import com.dinethbakers.hrm.repository.jparepository.TimeOffRepository;
 import com.dinethbakers.hrm.service.TimeOffService;
 import com.dinethbakers.hrm.util.Status;
@@ -16,6 +20,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @Service
@@ -24,6 +31,7 @@ public class TimeOffServiceImpl implements TimeOffService {
     private final TimeOffRepository timeOffRepository;
     private final EmployeeRepository employeeRepository;
     private final BranchRepository branchRepository;
+    private final MessageRepository messageRepository;
     private final ObjectMapper mapper;
 
     @Override
@@ -88,6 +96,8 @@ public class TimeOffServiceImpl implements TimeOffService {
         timeOffEntity.setStatus(dto.getStatus());
 
         timeOffRepository.save(timeOffEntity);
+
+        sendMessage(dto);
 
         if (Status.APPROVED == dto.getStatus()){
             result.put(key1, true);
@@ -175,6 +185,53 @@ public class TimeOffServiceImpl implements TimeOffService {
         );
 
         return request;
+    }
+
+    private void sendMessage(TimeOffApproval dto) {
+        Optional<TimeOffEntity> requestById = timeOffRepository.findById(dto.getRequestId());
+
+        if (requestById.isEmpty()){
+            return;
+        }
+
+        MessageEntity messageEntity = new MessageEntity();
+
+        LocalDateTime approvedDateTime = dto.getApprovedDateTime();
+        // Extract date and time from LocalDateTime
+        LocalDate date = approvedDateTime.toLocalDate();
+        LocalTime time = approvedDateTime.toLocalTime();
+        // Set date and time to messageEntity
+        messageEntity.setDate(date);
+        messageEntity.setTime(time);
+
+        LocalDateTime startDateTime = requestById.get().getStartDateTime();
+        // Extract date and time from LocalDateTime
+        LocalDate startDate = startDateTime.toLocalDate();
+        LocalTime startTime = startDateTime.toLocalTime();
+        // Set date and time to messageEntity
+        messageEntity.setDate(date);
+        messageEntity.setTime(time);
+
+        LocalDateTime endDateTime = requestById.get().getEndDateTime();
+        // Extract date and time from LocalDateTime
+        LocalDate endDate = endDateTime.toLocalDate();
+        LocalTime endTime = endDateTime.toLocalTime();
+        // Set date and time to messageEntity
+        messageEntity.setDate(date);
+        messageEntity.setTime(time);
+
+        // Set receiver and text
+        messageEntity.setReceiver(requestById.get().getEmployee());
+
+
+        messageEntity.setText(
+                "Time Off request" +
+                        " from " + startTime + " on " + startDate +
+                        " to " + endTime + " on " + endDate +
+                        " " + dto.getStatus());
+
+        // Save messageEntity to repository
+        messageRepository.save(messageEntity);
     }
 
     private String generateId(){

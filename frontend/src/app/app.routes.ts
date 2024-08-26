@@ -10,6 +10,7 @@ import { RequestOtComponent } from './component/request-ot/request-ot.component'
 import { ManageEmployeeComponent } from './component/manage-employee/manage-employee.component';
 import { SalarySlipComponent } from './component/salary-slip/salary-slip.component';
 import { ManageAttendanceComponent } from './component/manage-attendance/manage-attendance.component';
+import { MessagesComponent } from './component/messages/messages.component';
 
 export const routes: Routes = [
     {
@@ -51,6 +52,10 @@ export const routes: Routes = [
     {
         path:"salary",
         component: SalarySlipComponent
+    },
+    {
+        path:"messages",
+        component: MessagesComponent
     },
     {
         path:"",

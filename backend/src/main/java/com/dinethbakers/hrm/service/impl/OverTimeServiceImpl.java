@@ -1,10 +1,12 @@
 package com.dinethbakers.hrm.service.impl;
 
 import com.dinethbakers.hrm.entity.EmployeeEntity;
+import com.dinethbakers.hrm.entity.MessageEntity;
 import com.dinethbakers.hrm.entity.OverTimeEntity;
 import com.dinethbakers.hrm.model.*;
 import com.dinethbakers.hrm.repository.jparepository.BranchRepository;
 import com.dinethbakers.hrm.repository.jparepository.EmployeeRepository;
+import com.dinethbakers.hrm.repository.jparepository.MessageRepository;
 import com.dinethbakers.hrm.repository.jparepository.OverTimeRepository;
 import com.dinethbakers.hrm.service.OverTimeService;
 import com.dinethbakers.hrm.util.Status;
@@ -17,6 +19,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 
 @Service
@@ -25,6 +30,7 @@ public class OverTimeServiceImpl implements OverTimeService {
     private final OverTimeRepository overTimeRepository;
     private final EmployeeRepository employeeRepository;
     private final BranchRepository branchRepository;
+    private final MessageRepository messageRepository;
     private final ObjectMapper mapper;
 
     @Override
@@ -96,6 +102,8 @@ public class OverTimeServiceImpl implements OverTimeService {
 
         overTimeRepository.save(overTimeEntity);
 
+        sendMessage(dto);
+
         if (Status.APPROVED == dto.getStatus()){
             result.put(key1, true);
             result.put(key2, "Request approved successfully.");
@@ -106,6 +114,8 @@ public class OverTimeServiceImpl implements OverTimeService {
         result.put(key2, "Request rejected successfully.");
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+
 
     @Override
     public List<OverTimeRequestRead> getAllByStatus(String requesterId, Status status) {
@@ -183,6 +193,43 @@ public class OverTimeServiceImpl implements OverTimeService {
         return request;
     }
 
+
+    private void sendMessage(OverTimeApproval dto) {
+        Optional<OverTimeEntity> requestById = overTimeRepository.findById(dto.getRequestId());
+
+        if (requestById.isEmpty()){
+            return;
+        }
+
+        MessageEntity messageEntity = new MessageEntity();
+
+        LocalDateTime approvedDateTime = dto.getApprovedDateTime();
+        // Extract date and time from LocalDateTime
+        LocalDate date = approvedDateTime.toLocalDate();
+        LocalTime time = approvedDateTime.toLocalTime();
+        // Set date and time to messageEntity
+        messageEntity.setDate(date);
+        messageEntity.setTime(time);
+
+        // Set receiver and text
+        messageEntity.setReceiver(requestById.get().getEmployee());
+
+        Double paymentAmount = requestById.get().getPaymentAmount();
+
+        if (dto.getStatus() == Status.REJECTED){
+            paymentAmount = 0.0;
+        }
+
+        messageEntity.setText(
+                "Overtime request on " + requestById.get().getDate() +
+                        " from " + requestById.get().getStartTime() +
+                        " to " + requestById.get().getEndTime() +
+                        " " + dto.getStatus()+
+                        ". Payment = Rs. " + paymentAmount);
+
+        // Save messageEntity to repository
+        messageRepository.save(messageEntity);
+    }
     private String generateId(){
         String maxId = overTimeRepository.findMaxOverTimeRequestId();
 

@@ -37,9 +37,6 @@ export class SalarySlipComponent implements OnInit{
     private toastr: ToastrService){}
 
   ngOnInit(): void {
-    if (this.sessionService.getEmployeeId() === "") {
-      this.router.navigateByUrl('');
-    }
     this.isManager = this.sessionService.getIsManager();
     this.loadSalarySlip();
   }

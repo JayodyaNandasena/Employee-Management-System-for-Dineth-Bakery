@@ -14,6 +14,7 @@ public class BranchEntity {
     @Id
     @Column(name = "branch_id")
     private String branchId;
+    @Column(unique = true)
     private String name;
 
     @Column(precision = 18, scale = 15)
@@ -23,9 +24,6 @@ public class BranchEntity {
     private BigDecimal longitude;
 
     private String address;
-
-//    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<BranchMobileEntity> mobileNumbers;
 
     @JsonIgnore
     @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)

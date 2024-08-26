@@ -37,8 +37,6 @@ q
 Asrc/main/java/com/dinethbakers/hrm/entity/SalaryPolicyEntity.java,f\9\f99533b55db608f377723244e117f40e5647aff2
 p
 @src/main/java/com/dinethbakers/hrm/entity/ShiftPolicyEntity.java,e\8\e85697bd3b25278c7aa85ca1342f178c8dc8ddc7
-r
-Bsrc/main/java/com/dinethbakers/hrm/entity/NonManagementEntity.java,6\4\64222d5d2b4f71abf8aec295f42755b7ef4198f6
 l
 <src/main/java/com/dinethbakers/hrm/entity/MessageEntity.java,d\d\dd04957e8c1feb6038b635091dd227958efed19f
 m
@@ -51,8 +49,6 @@ m
 =src/main/java/com/dinethbakers/hrm/entity/EmployeeEntity.java,b\c\bc6f4658eca51ab9f546ceb7e2c1dd5978227c0c
 o
 ?src/main/java/com/dinethbakers/hrm/entity/AttendanceEntity.java,7\6\760c37dded37dbb1135ca5db284f23bfe5ed1114
-o
-?src/main/java/com/dinethbakers/hrm/entity/ManagementEntity.java,e\9\e902a4842883ca5c99e658b424d3099fe270d521
 l
 <src/main/java/com/dinethbakers/hrm/entity/AccountEntity.java,9\f\9fb33aa41c4662fcae7ba331d5b09b82da5a1689
 l
@@ -169,5 +165,11 @@ esrc/main/java/com/dinethbakers/hrm/repository/nativerepository/impl/EmployeeNat
 dsrc/main/java/com/dinethbakers/hrm/repository/nativerepository/impl/AccountNativeRepositoryImpl.java,3\5\351e7d463be21334ae9f8eeb12f8c5c911d6aca4
 l
 <src/main/java/com/dinethbakers/hrm/model/AttendanceRead.java,2\a\2a3da31c8768e0b902fb7e161b70bb8a5c56811b
-ˆ
-Xsrc/main/java/com/dinethbakers/hrm/repository/jparepository/NonManagementRepository.java,7\8\785166555df20f1899728249446d201605a4e01c
+t
+Dsrc/main/java/com/dinethbakers/hrm/controller/MessageController.java,8\0\80919f513f5f11ffb29c5f3ace2d39000673402b
+n
+>src/main/java/com/dinethbakers/hrm/service/MessageService.java,1\4\14b1cdc8c1f753ba9420429aa066d5bd25543620
+w
+Gsrc/main/java/com/dinethbakers/hrm/service/impl/MessageServiceImpl.java,b\0\b0ba9c70129c5b42b16a0ab8afaaace42a553f96
+‚
+Rsrc/main/java/com/dinethbakers/hrm/repository/jparepository/MessageRepository.java,b\0\b095ff009d506b923af2a381d40838cf4c3e35fc
