@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SessionStorageService } from '../../services/session-storage.service';
 import { Router } from '@angular/router';
 import { LoginRequest } from '../../models/models';
 import { ToastrService } from 'ngx-toastr';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule],
+  imports: [NgIf, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 
 export class LoginComponent{
-
-  public loginRequest:LoginRequest = {
-    username: "",
-    password: ""
-  }
+  public loginForm = new FormGroup({
+    username : new FormControl("",Validators.required),
+    password : new FormControl("",Validators.required)
+  })
 
   constructor(
     private sessionStorageService: SessionStorageService,
@@ -29,7 +29,7 @@ export class LoginComponent{
   login(){
     fetch("http://localhost:8081/login",{
       method:'POST',
-      body: JSON.stringify(this.loginRequest),
+      body: JSON.stringify(this.loginForm.value),
       headers : {"Content-type": "application/json"}
     })
     .then(res => res.json())
